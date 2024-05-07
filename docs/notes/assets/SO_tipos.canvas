@@ -1,0 +1,29 @@
+{
+	"nodes":[
+		{"id":"02df3cff79985843","type":"text","text":"Monoprogramáveis","x":-580,"y":-140,"width":228,"height":60,"color":"6"},
+		{"id":"035c6740ac99cf64","type":"text","text":"Multiprogramáveis","x":-234,"y":-140,"width":228,"height":60,"color":"6"},
+		{"id":"7309186d6373e626","type":"text","text":"Múltiplos processadores","x":100,"y":-140,"width":260,"height":60,"color":"6"},
+		{"id":"e5fbd79e081b621a","type":"text","text":"Tipos de Sistemas Operacionais","x":-280,"y":-400,"width":320,"height":60,"color":"#1e1e1e"},
+		{"id":"48adbfb9593ea869","type":"text","text":"Batch","x":-352,"y":240,"width":108,"height":60,"color":"6"},
+		{"id":"0886535ba685f829","type":"text","text":"time-sharing","x":-200,"y":240,"width":160,"height":60,"color":"6"},
+		{"id":"011f073d448770f8","type":"text","text":"real-time","x":-6,"y":240,"width":140,"height":58,"color":"6"},
+		{"id":"253267d7adafe974","type":"text","text":"- Dedicado à um único programa\n- Baixo aproveitamento de recursos\n","x":-580,"y":-80,"width":228,"height":163},
+		{"id":"351868f8872ede05","type":"text","text":"- 2 ou mais CPUs\n- Favorece o multithreading e a multiprogramação\n","x":100,"y":-80,"width":260,"height":163},
+		{"id":"7c93825646bc26a0","type":"text","text":"Fracamente acoplados","x":450,"y":238,"width":250,"height":60,"color":"6"},
+		{"id":"239eca73250b39ab","type":"text","text":"Fortemente acoplados","x":450,"y":120,"width":250,"height":60,"color":"6"},
+		{"id":"ddf9a794f95f6d8c","type":"text","text":"- Execução de vários programas\n- Melhor aproveitamento de recursos\n","x":-234,"y":-80,"width":228,"height":164},
+		{"id":"b1fe085fa1028ad3","type":"text","text":"Lote","x":-352,"y":300,"width":108,"height":60},
+		{"id":"36b5141c7f139056","x":-200,"y":300,"width":160,"height":60,"type":"text","text":"time-slices"},
+		{"id":"6647f0c873d6eb8c","x":-6,"y":298,"width":140,"height":60,"type":"text","text":"tempo rígido"}
+	],
+	"edges":[
+		{"id":"9efd9799e9e08a3d","fromNode":"e5fbd79e081b621a","fromSide":"bottom","toNode":"02df3cff79985843","toSide":"top"},
+		{"id":"ba44d6c4295cfc86","fromNode":"e5fbd79e081b621a","fromSide":"bottom","toNode":"035c6740ac99cf64","toSide":"top"},
+		{"id":"f3228613dbac2fbe","fromNode":"e5fbd79e081b621a","fromSide":"bottom","toNode":"7309186d6373e626","toSide":"top"},
+		{"id":"3c81a6f32fce7089","fromNode":"035c6740ac99cf64","fromSide":"bottom","toNode":"0886535ba685f829","toSide":"top"},
+		{"id":"ecfaaea34a7a47c6","fromNode":"7309186d6373e626","fromSide":"bottom","toNode":"239eca73250b39ab","toSide":"left"},
+		{"id":"7fc2edcc64e1e828","fromNode":"7309186d6373e626","fromSide":"bottom","toNode":"7c93825646bc26a0","toSide":"left"},
+		{"id":"d3f4a8fd1617ac1f","fromNode":"035c6740ac99cf64","fromSide":"bottom","toNode":"48adbfb9593ea869","toSide":"top"},
+		{"id":"82c94f48d27ca7d8","fromNode":"035c6740ac99cf64","fromSide":"bottom","toNode":"011f073d448770f8","toSide":"top"}
+	]
+}
