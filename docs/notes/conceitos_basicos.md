@@ -67,4 +67,6 @@ Caracterizados pela presença de duas ou mais CPUs interligadas e trabalhando em
 
 [Tipos de SOs](assets/SO_tipos.canvas)
 
-<img src="assets/image.png" align=center width=700/>
+<div align="center">
+    <img src="assets/image.png" width=700/>
+</div>
