@@ -70,3 +70,10 @@ Caracterizados pela presença de duas ou mais CPUs interligadas e trabalhando em
 <div align="center">
     <img src="assets/image.png" width=700/>
 </div>
+
+# Classificação de SOs
+
+Além dos tipos de Sistemas Operacionais vistos anteriormente, os SOs podem ser classificados em:
+- SOs de computadores pessoais: tipicamente usados por apenas 1 usuário simultâneo. Ex: Windows 10, Ubuntu
+- SOs de servidores: têm o objetivo de atender ao maior número de usuários ao mesmo tempo. Ex: Windows Server, Red Hat, Slackware, Cent OS.
+- SOs de sistemas embarcados: sistemas para aparelhos que não são computadores, estão em alto crescimento. Ex: Android, IOS.
