@@ -4,7 +4,7 @@ O controle de um ambiente multipromável é de resposabilidade exclusiva do sist
 ## Mas afinal, o que é um processo?
 Um processo nada mais é que a instância de um programa em execução. Ele é a unidade básica de um sistema operacional. Cada processo possui seu próprio contador de programa, pilha, variáveis, ponteiro para a pilha, e assim por diante. O conjunto dessas informações pode ser entendida como o **contexto do processo**. Essa definição ressalta a diferença entre programa e processo.
 
-### Programa vs Processo
+### Programa ou Processo?
 Um programa é um conjunto de instruções **passivas** em disco/arquivos, já o processo, é a instância ativa de um programa em execução na memória. Cada processo possui **seu próprio contexto**, isso implica que dois processos do mesmo programa podem ser diferentes. Em analogia, um programa seria como uma receita de um bolo, e o processo seria a execução de fato do bolo.
 
 ## Estrutura de um processo
@@ -68,3 +68,5 @@ O uso de **processos independentes** é a forma mais simples de implementar a co
 Uma característica desses tipos é o consumo de recursos e tempo de CPU para alocação e eliminação dos processos, além do problema da comunicação e sincronização dos processos pouco eficientes, visto que cada um possui seu próprio espaço de endereçamento.
 
 Em alternativa a esses dois modelos surgiram as **threads**, como uma tentativa de diminuir os custos de criação, eliminação e troca de contexto. Cada processo pode ter várias threads, e a elas compartilham a CPU da mesma maneira que os processos (enquanto uma espera a outra executa). Cada thread possui seu **próprio contexto de hardware**, entretanto **compartilham o mesmo contexto de software e espaço de endereçamento entre si**. Isso permite uma comunicação entre thread **mais simples e rápida**.
+
+    
