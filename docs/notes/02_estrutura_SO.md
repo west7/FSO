@@ -1,13 +1,12 @@
-# Estrutura de um Sistema Operacional
+# 2. Estrutura de um Sistema Operacional
 O SO é formado por um conjunto de rotinas dedicado ao usuário e as aplicações. Esse conjunto pode ser denominado *kernel* (núcleo). Além disso o sistema também apresenta um conjunto de utilitários e linguagem de comando, porém esses não fazem parte da estrutura do SO e são apenas um apoio para o usuário.
 
-## Funções do Kernel
-As rotinas de um SO, diferentemente de uma aplicação comum, são concorrentes com base em eventos dissociados do tempo (assíncronos). As principais do núcleo funções são:
+## 2.1 Funções do Kernel
+As rotinas de um SO, diferentemente de uma aplicação comum, são concorrentes com base em eventos dissociados do tempo (assíncronos). As principais funções do núcleo são:
 
 - Tratamento de interrupções;
-- Criação e eliminação de processos e threads;
-- Sincronização e comunicação entre processos e threads;
-- Escalonamento e controle dos processos e threads;
+- Criação, eliminação, sincronização e comunicação de [processos e threads](../notes/03_processos_e_threads.md);
+- [Escalonamento](../notes/04_gerencia_do_processador.md#41-escalonador-e-criterios-de-escalonamento);
 - Gerência de memória;
 - Gerência do sistema de arquivos;
 - Gerência de dispositivos de I/O;
@@ -15,17 +14,15 @@ As rotinas de um SO, diferentemente de uma aplicação comum, são concorrentes 
 - Contabilização do uso do sistema; 
 - Auditoria e segurança do sistena.
 
-## Modos de acesso
+## 2.2 Modos de acesso
 Uma preocupação que surge no projeto de SOs é a proteção e o nível de acesso ao núcleo, pois caso alguma aplicação altere a integridade do kernel todo o sistema pode ser comprometido. Muitas dessas proteções utilizam uma função dos processadores conhecido como **modo de acesso**. 
 
 Em geral, existem 2 modos de acesso: ***Modo Usuário e Modo Kernel (protegido)***. O primeiro permite acesso somente a instruções **não privilegiadas**. Já o Modo Kernel possui acesso a **todas** as instruções do processador. Um SO roda em **Modo Kernel**.
 
-# Rotinas do Sistema e Syscalls
+## 2.3 Rotinas do Sistema e Syscalls
 O controle de execução das rotinas do SO é realizado por um mecanismo chamado **System calls (Syscalls)**. Sempre que uma aplicação desejar chamar uma rotina ele realiza uma Syscall, e então, se a aplicação possui a permição necessária, o SO salva o conteúdo dos registradores, troca o modo para protegido, altera o PC para o endereço da rotina chamada. No final da execução o SO altera o modo para usuário e restaura o contexto dos registradores para que a aplicação continue de onde parou.
 
-
-
-## Linguagem de comando
+## 2.4 Linguagem de comando
 A linguagem de comandos é uma forma pela qual o usuário pode se comunicar diretamente com o SO, o que possibilita executar tarefas específicas do sistema. Os comandos digitados são interpretados pelo *shell* que interpreta o comando e realiza as syscalls, retornando algum valor para o usuário. Posteriormente as linguagens de comando evoluíram para interfaces gráficas, possibilitando uma interação mais simples e intuitiva.
 
 Aqui está uma lista de alguns comandos Linux mais utilizados:
@@ -72,48 +69,60 @@ Aqui está uma lista de alguns comandos Linux mais utilizados:
 
 Esses são apenas alguns dos comandos mais comuns no Linux. Há muitos outros comandos e opções disponíveis, e você pode explorar mais detalhes sobre cada comando utilizando a opção `man` seguida do nome do comando (por exemplo, `man ls` para obter o manual do comando `ls`).
 
-# Arquitetura do Núcleo 
-Em sistemas operacionais, um dos assuntos mais importantes é sobre as diferentes estruturas do *kernel*. Nos sistemas operacionais modernos, o número de linhas de código pode exceder 40 milhões, e grande parte do código é escrita em C/C++. Linguagens de alto nível, facilitam no desenvolvimento, manutenção e portabilidade do código. No entanto, essas linguagens perdem em muito para linguagens de máquina em relação ao desempenho, por isso partes vitais do código como o **escalonador** e o **gestor de interrupções** são desenvolvidos em linguagem *assembly*. A seguir veremos as principais arquiteturas do *kernel*.
+## 2.5 Arquitetura do Núcleo 
+Em sistemas operacionais, um dos assuntos mais importantes é sobre as diferentes estruturas do *kernel*. Nos sistemas operacionais modernos, o número de linhas de código pode exceder 40 milhões, e grande parte do código é escrita em C/C++. Linguagens de alto nível, facilitam no desenvolvimento, manutenção e portabilidade do código. No entanto, essas linguagens perdem em muito para linguagens de máquina em relação ao desempenho, por isso partes vitais do código como o [escalonador](../notes/04_gerencia_do_processador.md) e o **gestor de interrupções** são desenvolvidos em linguagem *assembly*. A seguir veremos as principais arquiteturas do *kernel*.
 
-## Arquitetura Monolítica
-É modelo de arquitetura mais comum e amplamente utilizado. Pode ser comparada à uma aplicação com diferentes módulos que são compilados individualmente e depois ligados, formando um grande bloco executável. É descrito por **Tanenbaum** como uma **"grande bagunça"**. Mesmo assim, possui a melhor organização para o tempo de resposta. Em suma:
+### 2.5.1 Arquitetura Monolítica
+É modelo de arquitetura mais comum e amplamente utilizado. Pode ser comparada à uma aplicação com diferentes módulos que são compilados individualmente e depois ligados, formando um grande bloco executável. É descrito por **Tanenbaum[^1]** como uma **"grande bagunça"**. Mesmo assim, possui a melhor organização para o tempo de resposta. Em suma:
 
-- Núcleo único
-- Eficiente
-- Complexo
-- Baixa escalabilidade
+[^1]: Tanenbaum, A. S. Sistemas Operacionais Modernos. 4. ed. São Paulo: Pearson, 2015.
 
 
-## Arquitetura de Camadas
+!!! info ""
+    - Núcleo único
+    - Eficiente
+    - Complexo
+    - Baixa escalabilidade
+
+
+### 2.5.2 Arquitetura de Camadas
 O sistema é dividido em níveis sobrepostos, nas quais cada camada pode utilizar os recursos apenas das camadas superiores. As vantagens desse modelo são o isolamento das funções do SO, o que facilita a manutenção, a criação de hierarquia entre os níveis, protegendo os níveis inferiores.
 
-- Hierarquia entre níveis
-- Abstração e redução da complexidade
-- Redução no desempenho 
+!!! info ""
+    - Hierarquia entre níveis
+    - Abstração e redução da complexidade
+    - Redução no desempenho 
 
-## Máquina Virtual
+### 2.5.3 Máquina Virtual
 Este modelo cria um **nível intermediário** entre o *hardware* e o *sistema operacional*, onde nesse nível estão alocadas diversas máquinas virtuais que simulam o hardware. Isso permite que cada VM tenha seu próprio SO e execute as tarefas como se todo o computador estivesse dedicado a elas. Esse fato provê grande segurança para esse tipo de sistema.
 
-- Isolamento
-- Segurança
-- Portabilidade e escalabilidade
-- Consolidação em servidores (rodar várias aplicações em uma máquina física)
+!!! info ""
+    - Isolamento
+    - Segurança
+    - Portabilidade e escalabilidade
+    - Consolidação em servidores (rodar várias aplicações em uma máquina física)
 
-## Micro-kernel
+### 2.5.4 Micro-kernel
 Os sistemas modernos tendem a tornar o *núcleo* cada vez menor e mais simples. A arquitetura de micro-kernel aplica essa ideia, e funciona como uma relação de *cliente-servidor*. Neste caso a principal função do **núcleo(servidor)** é intermediar a comunicação entre os **processos(clientes)** por meio de **"mensagens"**. Sendo assim apenas o *kernel* roda em **modo protegido** e a maioria dos serviços em **modo usuário**.
 
-- Funcionalidades mínimas
-- Proteção do núcleo
-- Escalabilidade alta
-- Difícil implementação
+!!! info ""
+    - Funcionalidades mínimas
+    - Proteção do núcleo
+    - Escalabilidade alta
+    - Difícil implementação
 
-## Exo-kernel
-Consiste na multiplexação segura do *hardware*. Fornece alta **abstração** para as aplicações. O conceito de SO é dividido em dois:
+### 2.5.5 Exo-kernel
+Essa arquitetura, delega a responsabilidade de gerenciamento de recursos direto aos aplicativos. Consiste na multiplexação segura do *hardware*. Fornece alta **abstração** para as aplicações. O conceito de SO é dividido em dois:
+
 1. **Exo-kernel**: Responsável pela multiplexação do hardware.
 2. **LibOS (biblioteca do SO)**: conjunto de bibliotecas que gerenciam os recursos e fornecem funções de alto nível para as aplicações. 
 
+!!! info ""
 
-
-
+       - Abstração
+       - Isolamento de recursos
+       - Segurança aprimorada
+       - Alta Eficiência das aplicações
+       - Flexibilidade
 
 
