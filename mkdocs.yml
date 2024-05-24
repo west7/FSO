@@ -1,1 +1,63 @@
 site_name: Fundamentos de Sistemas Operacionais
+site_url: https://west7.github.io/FSO
+site_author: Guilherme Westphall
+site_description: Site destinado à documentação da apostila Fundamentos de sistemas operacionais.
+
+nav:
+  - Início: index.md
+  - Conteúdos:
+    - Conceitos básicos: notes/01_conceitos_basicos.md
+    - Estrutura do Sistema Operacional: notes/02_estrutura_SO.md
+    - Processos e Threads: notes/03_processos_e_threads.md
+    - Gerência do processador: notes/04_gerencia_do_processador.md
+
+theme:
+  name: material
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.top
+    - navigation.footer
+  palette:
+    - scheme: default
+      toggle:
+        icon: material/weather-night
+        name: Mudar para o modo escuro
+      primary: black
+      accent: deep purple
+
+    - scheme: slate
+      toggle:
+        icon: material/weather-sunny
+        name: Mudar para o modo claro
+      primary: black
+      accent: deep purple
+  language: pt-BR
+
+  plugins:
+  - search
+  - include-markdown
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.arithmatex:
+      generic: true
+  - footnotes
+  - pymdownx.details
+  - pymdownx.mark
+  - attr_list
+  - admonition
+  - pymdownx.superfences:
+      custom_fences:
+      - name: mermaid
+        class: mermaid
+        format: !!python/name:pymdownx.superfences.fence_code_format
+
+        
+extra_javascript:
+  - https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js
