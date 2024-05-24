@@ -1,5 +1,5 @@
 # 3. Processos e Threads
-O controle de um ambiente multipromável é de resposabilidade exclusiva do sistema operacional. Para isso, a execução de uma aplicação sempre deve estar associada a um **processo**, estes são a base para a construção de sistema multiprogrmável.
+O controle de um ambiente multiprogramável é de resposabilidade exclusiva do sistema operacional. Para isso, a execução de uma aplicação sempre deve estar associada a um **processo**, estes são a base para a construção de sistema multiprogramável.
 
 ## 3.1 Mas afinal, o que é um processo?
 Um processo nada mais é que a instância de um programa em execução. Ele é a unidade básica de um sistema operacional. Cada processo possui seu próprio contador de programa, pilha, variáveis, ponteiro para a pilha, e assim por diante. O conjunto dessas informações pode ser entendida como o **contexto do processo**. Essa definição ressalta a diferença entre programa e processo.
