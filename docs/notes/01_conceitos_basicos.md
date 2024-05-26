@@ -77,7 +77,6 @@ São semelhantes ao anterior, a diferença está no tempo exigido para o process
 Caracterizados pela presença de duas ou mais CPUs interligadas e trabalhando em conjunto. ==Permitem que vários programas executem em paralelo==, ou que um programa seja executado em várias partes e, consequentemente, mais rápido (**se for multithreaded**). Também podem ser subclassificados em: **Fortemente acoplados e fracamente acoplados**, a depender do nível de ligação de memória e periféricos.
 
 ---
-[Arquivo canvas para Tipos de SOs](assets/SO_tipos.canvas)
 
 <div align="center">
     <img src="../assets/image.png" />

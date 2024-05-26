@@ -6,10 +6,12 @@ site_description: Site destinado à documentação da apostila Fundamentos de si
 nav:
   - Início: index.md
   - Conteúdos:
-    - Conceitos básicos: notes/01_conceitos_basicos.md
-    - Estrutura do Sistema Operacional: notes/02_estrutura_SO.md
-    - Processos e Threads: notes/03_processos_e_threads.md
-    - Gerência do processador: notes/04_gerencia_do_processador.md
+    - 1. Conceitos básicos: notes/01_conceitos_basicos.md
+    - 2. Estrutura do Sistema Operacional: notes/02_estrutura_SO.md
+    - 3. Processos: notes/03_processos_e_threads.md
+    - 4. Gerência do processador: notes/04_gerencia_do_processador.md
+    - 5. Threads: notes/05_thread.md
+    - 6. Sincronização e comunicação de processos: notes/06_sincronizacao_e_comunicacao.md
 
 theme:
   name: material

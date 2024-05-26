@@ -1,4 +1,4 @@
-# 3. Processos e Threads
+# 3. Processos
 O controle de um ambiente multiprogramável é de resposabilidade exclusiva do sistema operacional. Para isso, a execução de uma aplicação sempre deve estar associada a um **processo**, estes são a base para a construção de sistema multiprogramável.
 
 ## 3.1 Mas afinal, o que é um processo?
@@ -68,6 +68,10 @@ O uso de **processos independentes** é a forma mais simples de implementar a co
 
 **Subprocessos** são criados de maneira hierárquica, onde o *processo-pai* e o *processo-filho* podem compartilhar informações e são dependentes entre si, ou seja, se um *pai* for eliminado seus filhos também serão. Uma característica desses tipos é o consumo de recursos e tempo de CPU para alocação e eliminação dos processos, além do problema da comunicação e sincronização dos processos pouco eficientes, visto que cada um possui seu próprio espaço de endereçamento.
 
-**Threads** surgem em alternativa a esses dois modelos  , como uma tentativa de diminuir os custos de criação, eliminação e troca de contexto. Cada processo pode ter várias threads, e a elas compartilham a CPU da mesma maneira que os processos (enquanto uma espera a outra executa). Cada thread possui seu **próprio contexto de hardware**, entretanto ==compartilham o mesmo contexto de software e espaço de endereçamento entre si==. Isso permite uma comunicação entre thread ==mais simples e rápida==.
+**[Threads](../notes/05_thread.md)** surgem em alternativa a esses dois modelos  , como uma tentativa de diminuir os custos de criação, eliminação e troca de contexto. Cada processo pode ter várias threads, e a elas compartilham a CPU da mesma maneira que os processos (enquanto uma espera a outra executa). Cada thread possui seu **próprio contexto de hardware**, entretanto ==compartilham o mesmo contexto de software e espaço de endereçamento entre si==. Isso permite uma comunicação entre thread ==mais simples e rápida==.
 
+> Processos podem ser classficados quanto ao custo da [troca de contexto](../notes/04_gerencia_do_processador.md#troca-contexto) e de manutenção.
+
+> - Heavyweight: Processos tradicionais.
+> - Lightweight: [Threads](../notes/05_thread.md).    
     

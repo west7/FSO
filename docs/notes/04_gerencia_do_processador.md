@@ -26,6 +26,12 @@ Escalonadores podem ser classificados em duas categorias principais: preemptivos
 ## 4.2 Algoritmos de escalonamento
 Então surge o problema: Dado um conjunto de processos, como dividir o uso do processador entre eles?
 
+<a id="troca-contexto"></a>
+!!! note "Troca de contexto" 
+    Antes de definir os algoritmos é importante entender o que é **"Troca de contexto"**. É um procedimento no qual o sistema operacional salva o estado de um processo em execução ([contexto de hardware](../notes/03_processos_e_threads.md#321-contexto-de-hardware)), e carrega o estado de outro a ser executado. Esse mecanismo é essencial para multitarefa e permite que o sistema operacional gerencie a execução de múltiplos processos, garantindo que cada um tenha acesso à CPU de maneira ordenada e eficiente.
+
+
+
 ### 4.2.1 First Come First Served
 Também conhecido como escalonamento First-In-First-Out(FIFO), o algoritmo *FCFS scheduling* prioriza quem chega primeiro, ou seja, o processo que primeiro pedir a CPU é o primeiro a obter a CPU. Este algoritmo é **não-preemptivo**, processos que são [CPU-bound](../notes/03_processos_e_threads.md#34-classficacao-de-processos) podem fazer que com outros processos esperem por tempo indeterminado. A implementação deste algoritmo usa uma fila de processos.
 
@@ -121,7 +127,7 @@ Uma diferença significativa.
 ### 4.2.2 Round-Robin (Escalonamento circular)
 Neste tipo de algoritmo, cada processo tem o direito de usar o processador por uma fatia determinada de tempo. Esta fatia pode ser denominada ***quantum***. Assim que o quantum termina o processador é disponibilizado para outro processo. O escalonamento circular é **preemptivo**, projetado principalmente para [sistemas de tempo compartilhado](../notes/01_conceitos_basicos.md#1222-sistemas-de-tempo-compartilhado-time-sharing). Ele se assemelha muito ao FCFS, porém com essa limitação de tempo na CPU.
 
-Um dos maiores problemas deste tipo de escalonamento é a definição de um quantum adequado. Para determinar este tempo deve se considera o tempo de [troca de contexto]() e o tempo de resposta desejado. 
+Um dos maiores problemas deste tipo de escalonamento é a definição de um quantum adequado. Para determinar este tempo deve se considera o tempo de [troca de contexto](../notes/04_gerencia_do_processador.md#troca-contexto) e o tempo de resposta desejado. 
 
 > Qual a influência que o tempo da troca de contexto?  
 Bom, se a troca de contexto levar um tempo muito maior que o quantum, os processos ficarão mais tempo sendo trocados do que efetivamente em execução, o que não faz sentido algum. Para um algoritmo eficiente o **tempo de troca de contexto**, deve ser deve ser consideravelmente menor que o tempo de execução
