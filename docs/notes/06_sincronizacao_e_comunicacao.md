@@ -59,90 +59,34 @@ int thread_B(int x){
     return x++;
 }
 ```
-> Assumindo que `x` está na posição de memória `0x2000`.
+!!! Example "Assumindo que `x` está na posição de memória `0x2000`."
 
-<div style="display: flex; justify-content: space-between;">
-    <div style="width: 48%;">
-        <blockquote>
-            <p>Escalonamento: A --> B</p>
-        </blockquote>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Processo / Thread A</th>
-                        <th>Processo / Thread B</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>LOAD R1, 0x2000 (x=0)</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>INC R1</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>STORE R1, 0x2000 (x=1)</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>LOAD R1, 0x2000 (x=1)</td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>INC R1</td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>STORE R1, 0x2000 (x=2)</td>
-                    </tr>
-                </tbody>
-            </table>
-            <p><code>x = 2</code></p>
-    </div>
-    <div style="width: 48%;">
-        <blockquote>
-            <p>Escalonamento: A --> B --> A</p>
-        </blockquote>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Processo / Thread A</th>
-                        <th>Processo / Thread B</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>LOAD R1, 0x2000 (x=0)</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>INC R1</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>LOAD R1, 0x2000 (x=1)</td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>INC R1</td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>STORE R1, 0x2000 (x=2)</td>
-                    </tr>
-                    <tr>
-                        <td>STORE R1, 0x2000 (x=1)</td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
-            <p><code>x = 1</code></p>
-    </div>
-</div>
+    === "Escalonamento A :octicons-arrow-right-24: B"
+
+        | Processo/Thread A      | Processo\Thread B      |
+        | ---------------------- | ---------------------- |
+        | LOAD R1, 0x2000 (x=0)  |                        |
+        | INC R1                 |                        |
+        | STORE R1, 0x2000 (x=1) |                        |
+        |                        | LOAD R1, 0x2000 (x=1)  |
+        |                        | INC R1                 |
+        |                        | STORE R1, 0x2000 (x=2) |
+
+        - **`x = 2`**
+  
+    === "Escalonamento A :octicons-arrow-right-24: B :octicons-arrow-right-24: A"
+
+        | Processo/Thread A      | Processo\Thread B      |
+        | ---------------------- | ---------------------- |
+        | LOAD R1, 0x2000 (x=0)  |                        |
+        | INC R1                 |                        |
+        |                        | LOAD R1, 0x2000 (x=1)  |
+        |                        | INC R1                 |
+        |                        | STORE R1, 0x2000 (x=2) |
+        | STORE R1, 0x2000 (x=1) |                        |
+
+        - **`x = 1`**
+
 
 Este comportamento é bastante indesejável, visto que para o programador a variável `x` foi incrementada duas vezes, porém ela em algum caso aparece com apenas um incremento. Debugar essas operações pode ser bastante complexo.
 
@@ -168,13 +112,13 @@ Para isso, são posicionadas funções antes e depois de uma região crítica. E
     ```
     Aparentemente a variável `lock` impede que outro processo entre na região crítica. Porém se houver uma troca de contexto bem entre as linhas 3 e 4 (depois de sair do loop e antes de trocar o valor de `lock` para 1), haverá uma condição de corrida. Em conclusão, a solução desses problemas não é fácil.
 
-### 6.3.1 Técnicas de implementação
+## 6.4 Técnicas de implementação
 Existem várias abordagens para implementar exclusão mútua, cada uma com suas próprias vantagens e desvantagens. Aqui estão as principais divisões dessas implementações:
 
-#### 6.3.1.1 Inibir interrupções
+### 6.4.1 Inibir interrupções
 Essa técnica consiste no processo, se for possível, desabilitar e habilitar antes e depois de acessar sua seção crítica, respectivamente. Um processo que desabilitou as interrupções não pode ser interrompido pelo escalonador e retirado da CPU. Sendo assim, não há problemas de acesso concorrente.
 
-```C
+```c
 desabilita();
 critical_section();
 habilita();
@@ -182,26 +126,27 @@ habilita();
 
 Contudo, esta solução é bastante limitada. Primeiro que ela afeta seriamente a multiprogramação, que consiste basicamente na interrupção de processos pelo SO. Segundo que, caso o processo desligasse as interrupções e não voltasse à liga-las, isto causaria **grande impacto** no sistema. Apesar disso, essa é uma função amplamente usada no núcleo do sistema, deixada fora do alcance do programador no espaço do usuário.
 
-#### 6.3.1.2 Espera ocupada
+### 6.4.2 Espera ocupada
 Também chamada de *busy waiting*, a espera ocupada desperdiça o tempo que tem de CPU fazendo um teste trivial. Deve ser usada quando há a expectativa de esperar muito pouco. As vezes pode ser obrigatória em modo kernel.
 
 ```C
 while (turn != mine);
 ```
-> Mesmo quando não é a vez do processo, ou seja, ele está em espera, ainda assim ele consome CPU fazendo a verificação do loop.
+!!! quote "Espera Ocupada ?"
+     Mesmo quando não é a vez do processo, ou seja, ele está em espera, ainda assim ele consome CPU fazendo a verificação do loop.
 
-**A. Estrita alternância**
+#### 6.4.2.1 Estrita alternância
 
 É um método de sincronização que se baseia no revezamento de **dois** processos. A ideia é que um processo sinalize que está na seção crítica e o outro processo aguarda a saída. Não deve ser usada quando um processo é muito mais lento que o outro. Ela viola a regra de um processo fora da seção crítica bloquear outro processo. O acesso ao recurso só pode ser realizado por dois processos, e sempre de forma alternada. Se houver um problema com um processo, de modo que não altere a variável, o outro ficará bloqueado indefinidamente.
 
 
-```C title="Solução"
+```C title="Solução:"
 int turn = 0;
 ```
 <div style="display: flex; justify-content: space-between;">
     <div style="width: 48%">
 
-        ```c title="Thread A"
+        ```c title=""
         int thread_A(){
             while (true) {
                 while (turn != 1);
@@ -214,7 +159,7 @@ int turn = 0;
     </div>
     <div style="width: 48%">
 
-        ```c title="Thread B"
+        ```c title=""
         int thread_B(){
             while (true) {
                 while (turn != 0);
@@ -228,13 +173,13 @@ int turn = 0;
     </div>
 </div>
 
-**B. Algoritmo de Peterson**
+#### 6.4.2.2 Algoritmo de Peterson
 
 Uma otimização do algoritmo de Dekker. É um algoritmo clássico de exclusão mútua entre dois processos, mas que pode ser generalizada para N processos. Utiliza variáveis de condição, indicando o desejo de um processo de entrar na região crítica e uma variável indicativa de turno. 
 
 Os processos possuem um id único (0 ou 1). O processo deve chamar uma função enter_region, que retorna só quando for seguro entrar na seção. Ao terminar o processamento, a função leave_region deve ser chamada para indicar que outros processos podem prosseguir. Isso garante que um processo fora da seção crítica não bloqueie outros. Garante a exclusão mútua e que um processo nunca ficará bloqueado indeterminadamente graças a variável `turn`.
 
-```C title="Algoritmo de Peterson"
+```C title=""
 int interested[2] = {false, false};
 int turn = 0;
 
@@ -252,7 +197,7 @@ void leave_region(int process_id) {
 }
 ```
 
-**C. Utilizar hardware adicional (TSL)**
+#### 6.4.2.3 Utilizar hardware adicional (TSL)
 
 Utiliza instruções **atômicas** fornecidas pelo hardware, como `test_and_set` ou `compare_and_swap`. Desta forma, podemos fazer um código parecido
 com as variáveis de impedimento:
@@ -273,15 +218,61 @@ lock = 1;
     - Se isso não for atingido é desejável colocar o processo pra dormir para que não consuma a CPU.
     - Além disso, existe o problema de prioridades invertidas, quando utiliza-se um escalonador de prioridade estática.
 
-#### 6.3.1.3 Bloqueio de processos
+### 6.4.3 Bloqueio de processos
 
-O processo aguarda a permissão para a entrada na região crítica e realiza uma syscall para causar seu bloqueio até que a região seja liberada. O bloqueio ocasiona em uma troca de contexto entre os processos e pode gerar uma espera longa. Chamadas blocantes podem não estar disponíveis em modo kernel.
+O processo aguarda a permissão para a entrada na região crítica e realiza uma syscall para causar seu bloqueio até que a região seja liberada. O bloqueio ocasiona em uma troca de contexto entre os processos e pode gerar uma espera longa. Chamadas blocantes podem não estar disponíveis em modo kernel.int turn = 0;
+
 
 ```C
 if (turn != mine) 
     wait_my_turn(turn);
 ```
-**A. Semáforos**
+
+<a id="prod-cons"></a>
+
+??? abstract "Problema Produtor-Consumidor"
+    Neste problema um thread escreve em um *buffer* outra lê este mesmo *buffer*, concorrentemente. O problema é que a **thread que grava os dados (produtor)**, não deve escrever em um buffer cheio, e **thread que lê (consumidor)** não deve ler um buffer vazio. Assim, o produtor deve *dormir* caso o buffer esteja cheio, e o consumidor caso esteja vazio. Um deve acordar o outro.
+
+    ```C title="Pseudo-código em C"
+    #define N 100 //Tamanho do buffer
+    int count = 0 
+
+    void producer()
+    {
+        int item;
+
+        while (true)
+        {
+            item = produce_item();
+
+            if (count == N)
+                sleep(producer);
+            insert_item(item);
+            count++;
+            if (count == 1)
+                wakeup(consumer)
+        }
+    }
+
+    void consumer()
+    {
+        int item;
+
+        while (true)
+        {
+            if (count == 0)
+                sleep(consumer);
+            item = remove_item();
+            count--;
+            if (count == N - 1)
+                wakeup(producer);
+
+            consume_item(item);
+        }
+    }
+    ```
+
+#### 6.4.3.1 Semáforo
 
 São variáveis de controle que servem como contadores de quantos sinais foram recebidos. Se baseiam, bem como o TSL, em operações atômicas.
 
@@ -292,3 +283,228 @@ São variáveis de controle que servem como contadores de quantos sinais foram r
     - Incrementa o valor do semáforo. Se algum processo estiver dormindo nele, algum é escolhido para tratar.
     - Nenhum processo é bloqueado ao dar `up(sem)`. 
 
+```C title="Exemplo"
+#define semaphore int
+semaphore s = 0;
+
+int thread1(){
+    printf("T1 - start\n");
+    up(s);
+    printf("T1 - end\n");
+}
+
+int thread2(){
+    down(s);
+    printf("T2\n")
+}
+```
+
+- A mensagem "`T1 - start\n`" sempre será impressa primeiro, as outras duas "`T1 - end\n`" e "`T2\n`" dependem da ordem de escalonamento.
+
+```C title="Semáforo Produtor-Consumidor:"
+#define N 100
+#define sempahore int
+semaphore mutex = 1;
+semaphore empty = N;
+semaphore full = 0;
+```
+<div style="display: flex; justify-content: space-between;">
+    <div style="width: 48%">
+
+    ```C
+    void producer()
+    {
+        int item;
+        while (true)
+        {
+            item = produce_item();
+            down(&empty);
+            down(&mutex)
+            insert_item(item);
+            up(&mutex);
+            up(&full)
+        }
+    }
+    ```
+    </div>
+    <div style="width: 48%">
+
+    ```C
+    void consumer()
+    {
+        int item;
+        while (true)
+        {
+            down(&full);
+            down(&mutex)
+            item = remove_item();
+            up(&mutex);
+            up(&empty)
+            consume_item(item);
+        }
+    }
+    ```
+    </div>
+</div>
+
+Neste exemplo foram combinados diferentes usos do semáforo. O semáforo `mutex` foi usado para garantir que apenas um entrasse na região crítica por vez, e os dois: `empty` e `full` para sincronizar o trabalho.
+
+#### 6.4.3.2 Mutex
+Quando não há a necessidade de usar a capacidade de contagem dos semáforos, pode se usar uma versão simplificada, chamada de mutex. São variáveis binárias podendo estar em estado `travado` e `destravado`. São uma solução simples e de fácil implementação.
+
+```C title="Exemplo"
+    void thread()
+    {
+       mutex_lock(&mutex);
+       critical_region();
+       mutex_unlock(&mutex);
+    }
+```
+
+!!! success "Mutex são uma das mais eficientes e rápidas estruturas de comunicação entre threads."
+
+#### 6.4.3.3 Locks
+Mutex podem ser chamados de locks exclusivos, ou seja, apenas um processo pode estar na região crítica por vez. Porém, muitas vezes as threads irão compartilhar dados entre si, mas não irão escrever, apenas ler. Nessse caso, não há problema que mais de uma thread esteja na região crítica ao mesmo tempo. Assim, os locks definem duas funções:
+
+- `read_lock`: Indicando que a thread irá apenas ler os dados da seção.
+- `write_lock`: Indica que a thread irá escrever na região e, por isso, pode ser a única ali naquele momento.
+
+
+#### 6.4.3.4 Monitores
+Por mais que os exemplos anteriores sejam simples e eficientes, erros ainda podem surgir em um projeto multithread. Como exemplo, no código do [produtor-consumidor](../notes/06_sincronizacao_e_comunicacao.md#prod-cons), se as linhas do mutex forem invertidas, o caos estará implantado. Semáforos e mutex fornecem explicitamente as ferramentas de sincronização para o programador. Já os monitores são mecanismos de sincronização de alto nível que tornam mais simples o desenvolvimento de programas concorrentes. Monitores são um tipo especial de módulo/pacote que contêm uma coleção de rotinas, variáveis e estruturas de dados. Eles permitem a implementação da multiprogramação de forma mais simples, fácil e segura. Hoje, a maioria das linguagens de programação fornecem rotinas para o uso de monitores.
+
+Os processos podem acessar as rotinas de um monitor, mas não seus dados. Apenas um processo pode estar ativo em um monitor por vez. Desta maneira, o programador apenas sinaliza as regiões críticas e ==o compilador se encarrega de implementar o paralelismo e exclussão mútua==.
+
+```java title="Em java:"
+class Monitor {
+    synchronized void criticalSection() {
+        // seção crítica
+    }
+}
+```
+
+!!! notes "Variáveis de condição"
+    Nessa técnica se faz necessária o uso de variáveis de condição. Essas variáveis são manipuladas por funções especias de sincronização, são elas `wait` e `signal`. A instrução `wait` coloca o processo em um estado de espera até que algum outro processo sinalize com `signal` que a condição de espera foi atendida e ele pode prosseguir. No exemplo do [produtor-consumidor](../notes/06_sincronizacao_e_comunicacao.md#prod-cons):
+
+    ```C hl_lines="4 6"
+        void producer(){
+            int item;
+
+            item = produce_item();
+            if(n == N)
+                wait(&condition);
+            insert_item();
+        }
+    ```
+    > As operações marcadas são atômicas! Estão dentro de um monitor.
+
+    Em C, que não existe monitores, o pacote Pthreads definiu que a variável de condição exige o uso de um mutex em conjunto para garantir que essa condição é satisfeita.
+
+    Variáveis de condição não são contadores, caso alguém dê um `signal` antes de um `wait`, o sinal será perdido.
+
+
+!!! notes "Produtor-consumidor com Monitores"
+    
+    === "Monitor"
+
+        ```C title=""
+            #define N 100
+            int full, empty;
+            int count = 0;
+
+            void insert_item(item)
+            {
+                if (count == N) wait(&full);
+                insert_item(item);
+                count++;
+                if (count == 1) signal(&empty);
+            }
+
+            int remove_item()
+            {
+                if (count == 0) wait(&empty);
+                item = remove_item();
+                count--;
+                if (count == N - 1) signal(&full);
+                return item;
+            }
+        ```
+
+    === "Programa"
+
+        ```C 
+            void producer()
+            {
+                while (true)
+                {
+                    item = produce_item();
+                    monitor.insert_item(item);
+                }
+            }
+
+            void consumer()
+            {
+                while (true)
+                {
+                    item = monitor.remove_item();
+                    consume_item(item);
+                }
+            }
+        ```
+
+## 6.5 Troca de mensagens
+Este é um mecanismo de comunicação e sincronização de threads. Deve ser realizada por um canal de comunicação, que pode ser um *buffer* ou uma *rede*. Essa comunicação ocorre por meio de duas rotinas `send(msg)` ou `recv(msg)`. Nesses projetos temos algumas questões:
+
+- O processo deve bloquear até o outro receber a mensagem ou pode executar?
+- Um processo pode enviar uma mensagem apenas para um processo ou pode enviar para vários?
+
+Essa troca é muito utilizada em programação paralela e é muito simples de se implementar:
+
+<div style="display: flex; justify-content:space-between;">
+        <div style="width: 48%;">
+        ```C 
+        void producer()
+        {
+            while (true)
+            {
+                int item = produce_item();
+                send(item);
+            }
+        }
+        ```
+        </div>
+        <div style="width: 48%;">
+            ```C 
+            void consumer()
+            {
+                while (true)
+                {
+                    recv(item);
+                    consume_item(item);
+                }
+            }
+            ```
+        </div>
+    </div>
+
+## 6.6 Barreiras
+Barreiras são outro tipo de mecanismo de sincronização. Dependendo da situação pode ser interessante que um processo siga para a próxima fase apenas quando todas as outras terminarem a primeira fase. Isso é possível com o uso de barreiras ao final de cada fase.
+
+```C title="Exemplo de barreira:"
+condition cond;
+mutex lock;
+
+void sync_threads()
+{
+    mutex_lock(&lock);
+    if (++sync_count < N_THREADS)
+        cond.wait(lock);
+    else
+    {
+        sync_count = 0;
+        cond.notify_all();
+    }
+    mutex_unlock(&lock);
+}
+
+```
