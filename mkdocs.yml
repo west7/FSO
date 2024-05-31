@@ -12,6 +12,7 @@ nav:
     - 4. Gerência do processador: notes/04_gerencia_do_processador.md
     - 5. Threads: notes/05_thread.md
     - 6. Sincronização e comunicação de processos: notes/06_sincronizacao_e_comunicacao.md
+    - 7. Deadlock: notes/07_deadlock.md
 
 theme:
   name: material
@@ -22,6 +23,8 @@ theme:
     - navigation.tabs.sticky
     - navigation.top
     - navigation.footer
+    - content.code.copy
+    - content.tabs.link
   palette:
     - scheme: default
       toggle:
@@ -41,8 +44,14 @@ theme:
   plugins:
   - search
   - include-markdown
+  - mkdocs-material-tabs
 
 markdown_extensions:
+  - pymdownx.critic
+  - pymdownx.caret
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde
   - pymdownx.highlight:
       anchor_linenums: true
   - pymdownx.inlinehilite
@@ -53,7 +62,12 @@ markdown_extensions:
   - pymdownx.details
   - pymdownx.mark
   - attr_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - admonition
+  - pymdownx.tabbed:
+      alternate_style: true 
   - pymdownx.superfences:
       custom_fences:
       - name: mermaid

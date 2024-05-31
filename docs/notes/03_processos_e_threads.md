@@ -75,3 +75,83 @@ O uso de **processos independentes** é a forma mais simples de implementar a co
 > - Heavyweight: Processos tradicionais.
 > - Lightweight: [Threads](../notes/05_thread.md).    
     
+
+## 3.7 Processos em UNIX e Linux
+
+ Em UNIX e Linux, a criação de um novo processo é feita através da chamada de sistema `fork()`, que cria um novo processo filho duplicando o processo pai. Cada processo possui seu identificador único (PID) e o identificador do seu pai (PPID).
+
+```C linenums="1"
+#include <stdio.h>
+#include <unistd.h>
+
+int main()
+{
+    pid_t pid = getpid();
+    printf("PID processo atual: %d\n", pid);
+
+    pid_t ppid = getppid();
+    printf("PID processo pai: %d\n", ppid);
+
+    return 0;
+}
+
+```
+
+Ao se chamar a função `fork();` um novo processo é criado e quase todo o conteúdo da tabela de processo é copiado para ele. O filho irá seguir a execução do mesmo ponto do pai. Além disso, o retorno dessa função é diferente para os processos e pode ser usado para diferencia-los. Ou seja, os processos são executados por clonagem e executarão o mesmo programa. Sendo assim, como é possível executar programas diferentes? Em sistemas UNIX é usada a chamada `exec();` que substitui o conteúdo de um processo com um novo programa, e é executada logo após o `fork();`. 
+
+### 3.7.1 Sinais
+Sinais são um mecanismo de sincronização e comunicação entre processos no sistema UNIX. Assim que um processo recebe um sinal sua execução é interrompida e o sinal é tratado por uma função especial `handler()`, ou é simplesmente ignorado. Um exemplo são os sinais `SIGTERM` e `SIGKILL`, usados para terminar processos. Existem também os sinais de usuário `SIGUSR1` e `SIGUSR2` que podem ser definidos pelo programador.
+
+Nos seguintes códigos:
+
+=== "Sinal 0"
+    ```C linenums="1"
+    --8<-- "exec/lista_1/signal.c"
+    ```
+
+    Se testar este código verá que ele imprimirá `0`, provavelmente. Mas como enviar um sinal para esse processo ? Passe para o [Signal 1](#__tabbed_1_2)
+
+=== "Signal 1"
+    ```C linenums="1" hl_lines="22"
+    --8<-- "exec/lista_1/signal.c"
+    ```
+
+    Se descomentarmos a linha marcada, o programa irá imprimir `1`, já que teremos enviado um sinal com o comando `kill();`
+
+### 3.7.2 Término de processos
+Um processo pode terminar voluntariamente de duas maneiras:
+
+1. Retoornando da função `main()`.
+2. Executando a função `exit()`, que pode receber os parâmetros `0` e `1` para indicar sucesso e erro, respectivamente.
+
+A função `wait()` é usada para aguardar o término de um processo, por exemplo quando um pai evoca um filho e quer aguardar o término do processo. A função pode receber um argumento do tipo `*int` para indicar o status da saída, as macros `WIFEXITED` e `WEXITSTATUS` podem ser usadas para ler este inteiro e indicar o status de retorno. A função `pause()` pode ser usada para aguardar a chegada de um sinal.
+
+```C linenums="1x"
+#include <stdlib.h>
+#include <stdio.h>
+#include <sys/wait.h>
+
+int main()
+{
+    pid_t pid_filho;
+
+    printf("Processo inicial de PID: %d\n", getpid());
+    pid_filho = fork();
+    if(pid_filho == 0)
+    {
+        printf("Ola sou processo filho de pid: %d\n", getpid());
+        exit(0);
+    }
+    wait(NULL);
+    printf("Sou processo pai e o filho terminou\n");
+    return 0;
+}
+```
+
+!!! note "Processos Zumbis"
+    Um processo zumbi é um processo que já terminou sua execução porém não foi removido da tabela de processos ainda, isso ocorre porque o pai ainda não leu o status de término do filho. Quando um processo termina ele entra em estado de *terminated*, mas suas informações permancem na tabela, até que o pai execute uma chamada `wait()` para ler este status, caso contrário o processo permanece na tabela como um zumbi.
+
+    ??? question "Criando um Zumbi"
+        ```C linenums="1"
+        --8<-- "exec/lista_1/processo-zumbi.c"
+        ```
