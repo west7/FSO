@@ -60,7 +60,7 @@ Existem 3 principais tipos de Sistemas Operacionais.
 Os sistemas monotarefas, como ficaram conhecidos, ==permitiam que os recursos do computador ficassem exclusivamente dedicado à um único programa==. Sendo assim, qualquer outra aplicação a ser executada deveria aguardar o término do concorrente. Caso o programa estivesse aguardando algum evento, como a entrada de um dado por exemplo, a CPU permaneceria **ociosa**, gerando um subaproveitamento dos recursos computacionais.
 
 ### 1.2.2 Sistemas Multiprogramáveis
-Nesse tipo de sistema os recursos são compartilhados com vários usuários/aplicações. ==Enquanto um programa esperar por uma leitura de disco outros programas são executados pela CPU==. É papel do Sistema operacional gerenciar o acesso aos recursos. Redução de custos e melhor aproveitamento do computador.
+Nesse tipo de sistema os recursos são compartilhados com vários usuários/aplicações. {==Enquanto um programa esperar por uma leitura de disco outros programas são executados pela CPU==}. É papel do Sistema operacional gerenciar o acesso aos recursos. Redução de custos e melhor aproveitamento do computador.
 
 - Podem ser subclassificados de acordo com o gerenciamento de suas aplicações:
 
@@ -71,17 +71,31 @@ Não exige interação do usuário, foram inspirados no uso de cartões perfurad
 Permitem que diversos programas sejam executados a partir das *time-slices*. Caso o processamento não seja concluído dentro do tempo, ele é interrompido e substituído, continuando na próxima *fatia de tempo*. Mudanças no SO e hardware são necessárias para implementação desse comportamento.
 
 #### 1.2.2.3 Sistemas de tempo real (real-time)
-São semelhantes ao anterior, a diferença está no tempo exigido para o processamento. Em sistemas *real-time* o limite de tempo deve ser cumprido de maneira **rígida**, caso contrário podem haver **problemas irreparáveis**. Aqui, não existe tempo determinado para o processamento, um programa utiliza o processador o tempo que for necessário, até aparecer outro programa **mais prioritário**. Tal prioridade é definida pela própria aplicação, não pelo SO. Usados para indústrias sensíveis como automobilística ou de tráfego aéreo.
+São semelhantes ao anterior, a diferença está no tempo exigido para o processamento. Em sistemas *real-time* o limite de tempo deve ser cumprido de maneira **rígida**, caso contrário podem haver **problemas irreparáveis**. Em um sistema operacional de tempo real, cada operação deve apresentar seu resultado dentro de um período definido de tempo.
+
 
 ### 1.2.3 Sistemas com múltiplos processadores
 Caracterizados pela presença de duas ou mais CPUs interligadas e trabalhando em conjunto. ==Permitem que vários programas executem em paralelo==, ou que um programa seja executado em várias partes e, consequentemente, mais rápido (**se for multithreaded**). Também podem ser subclassificados em: **Fortemente acoplados e fracamente acoplados**, a depender do nível de ligação de memória e periféricos.
 
----
 
-<div align="center">
-    <img src="../assets/image.png" />
-</div>
----
+<center>
+
+```mermaid
+graph TB
+
+T{Tipos de Sistemas Operacionais}
+T --> A[Monoprogramáveis]
+T --> B[Multiprogramáveis]
+T --> C[Múltiplos processadores]
+
+B --> BAT[Batch]
+B --> Time-sharing
+B --> Real-time
+
+classDef transparent fill:transparent,stroke:transparent;
+```
+
+</center>
 
 ## 1.3 Classificação de SOs
 

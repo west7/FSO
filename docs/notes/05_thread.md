@@ -3,7 +3,7 @@
 O conceito de threads é fundamental para compreender a multiprogramação. No começo, sistemas operacionais suportavama apenas processos de thread única (**monothread**). Posteriormente foi introduzido o conceito de um processo com múltiplas threads (**multithread**), o que possibilitou a implementação eficiente de aplicações concorrentes, pois um processo pode ter várias partes diferentes do seu código sendo executados concorrentemente. 
 
 ## 5.1 O que são threads?
-Threads ou **linhas de execução**, podem ser definidas como um fluxo de controle individual dentro de um processo, ou seja, são partes de um processo. Cada processo tem ao menos uma thread, que é o fluxo principal de execução, mas pode criar várias threads adicionais para executar tarefas em paralelo. Todas as threads de um processo compartilham o mesmo [espaço de endereçamento](../notes/03_processos_e_threads.md#323-espaço-de-endereçamento), o que torna a comunicação entre elas muito mais simples, consequentemente, melhorando o desempenho da aplicação.
+Threads ou **linhas de execução**, podem ser definidas como um fluxo de controle individual dentro de um processo, ou seja, são partes de um processo. Cada processo tem ao menos uma thread, que é o fluxo principal de execução, mas pode criar várias threads adicionais para executar tarefas em paralelo. Todas as threads de um processo compartilham o mesmo [espaço de endereçamento](../notes/03_processos_e_threads.md#323-espaco-de-enderecamento), o que torna a comunicação entre elas muito mais simples, consequentemente, melhorando o desempenho da aplicação.
 
 A [troca de contexto](../notes/04_gerencia_do_processador.md#troca-contexto), entre processos tradicionais é muito pesada para o sistema, já que eles não compartilham memória. As threads separam os conceitos de recursos e execução. Processos agrupam recursos e as threads são escalonadas para a execução. Permitem que múltiplas execuções ocorram no mesmo ambiente do processo com um grau de independência entre elas.
 
@@ -54,10 +54,10 @@ Como threads compartilham o mesmo espaço de endereçamento, uma thread pode alt
     - Responsividade: Podem manter as responsividade em aplicações interativas, como interfaces gráficas, por exemplo.
     - Eficiência: Diminuição do uso de recursos e tempo comparado aos processos comuns.
 
-!!! warning "Desafios do multithreading"
-    - Sincronização: Devido ao compartilhamento do espaço de endereçamento, mecanismos de [sincronização](../notes/06_sincronizacao_e_comunicacao.md) como [mutexes]() e [semáforos]() se fazem necessários.
+!!! danger "Desafios do multithreading"
+    - Sincronização: Devido ao compartilhamento do espaço de endereçamento, mecanismos de [sincronização](../notes/06_sincronizacao_e_comunicacao.md) como [mutexes](../notes/06_sincronizacao_e_comunicacao.md#6432-mutex) e [semáforos](../notes/06_sincronizacao_e_comunicacao.md#6431-semaforo) se fazem necessários.
     - Complexidade: Programar em ambientes multithread pode ser um tanto mais complexo se comparado a ambientes monothread.
-    - Depuração: Encontrar e corrigir bugs em programas multithreading pode ser desafiador, problemas como [condições de corrida](../notes/05_thread.md#56-condicao-de-corrida) e [deadlocks]() são difíceis de se identificar e corrigir.
+    - Depuração: Encontrar e corrigir bugs em programas multithreading pode ser desafiador, problemas como [condições de corrida](../notes/06_sincronizacao_e_comunicacao.md#62-compartilhamento-de-recursos-condicao-de-corrida) e [deadlocks]() são difíceis de se identificar e corrigir.
 
 ## 5.5 Programação multithreading
 
@@ -183,7 +183,7 @@ Um thread despachante é reponsável por receber um trabalho e delega-lo para um
 </center>
 
 !!! success "Vantagens:"
-    - Consumo rápido de mensagens.
+    - Consumo rápido de tarefas.
     - Boa distribuição das requisições.
     - Flexibilidade: podemos facilmente mudar o número de threads.
 
@@ -205,7 +205,7 @@ Nesse modelo, as threads são gulosas e autônomas. Elas acessam uma "poll" (urn
 </center>
 
 !!! success "Vantagens:"
-    - Bom consumo de mensagens.
+    - Bom consumo de tarefas.
     - Boa distribuição de requisições.
     - Flexibilidade em mudar o número de tarefas.
 
@@ -223,6 +223,11 @@ Cada thread realiza uma tarefa e passa os dados para a próxima, e para próxima
 ```
 </center>
 
+!!! success "Vantagens:"
+    - Componentização: Estágios do pipeline podem ser reutilizados depois.
+    - Paralelismo: Enquanto uma thread processa uma tarefa outra thread pode processar outra.
+    - Especialização de estágios: Cada thread pode ser otimizada para uma tarefa específica.
+
 !!! failure "Desvantagens:"
     - Perda de trabalho: se uma thread for muito mais lenta que as outras, todo o processamento é desperdiçado.
-    - Muitas vezes não e fácil dividir a tarefa em um pipeline.
+    - Complexidade: Muitas vezes não e fácil dividir a tarefa em um pipeline.

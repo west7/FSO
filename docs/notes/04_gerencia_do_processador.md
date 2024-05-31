@@ -13,7 +13,7 @@ Um escalonador bem projetado deve garantir alguns fatores como: maximização de
     - **Tempo de turnaround**: Reduzir o tempo desde o lançamento do processo até seu término. Isso envolve tempo de espera por operações de I/O, alocação de memória, processamento e tempo de espera. Mais utilizado em [processamento batch](../notes/01_conceitos_basicos.md#1221-sistemas-batch-processamento-em-lote).
     - **Throughput**: Maximizar o número de tarefa executadas em uma unidade de tempo.  
 
-    !!! warning "Observação:"
+    !!! danger "Observação:"
         Não é possível atingir todos estes critérios, muitos deles são conflitantes entre si.
 
 ### 4.1.1 Escalonadores Preemptivos e Não-Preemptivos
@@ -148,12 +148,10 @@ Bom, se a troca de contexto levar um tempo muito maior que o quantum, os process
     - Desempenho para processos longos pode ser muito ruim.
     - Latência para processos de alta prioridades: Não leva prioridade em conta.
 
-<details>
-<summary>Escalonador Round-Robin:</summary>
-```C
---8<-- "exec/lista_1/escalonador-round-robin.c"
-```
-</details>
+??? abstract "Escalonador Round-Robin"
+    ```C
+    --8<-- "exec/lista_1/escalonador-round-robin.c"
+    ```
 
 
 ### 4.2.3 Escalonadomento por Prioridades

@@ -72,57 +72,58 @@ Esses são apenas alguns dos comandos mais comuns no Linux. Há muitos outros co
 ## 2.5 Arquitetura do Núcleo 
 Em sistemas operacionais, um dos assuntos mais importantes é sobre as diferentes estruturas do *kernel*. Nos sistemas operacionais modernos, o número de linhas de código pode exceder 40 milhões, e grande parte do código é escrita em C/C++. Linguagens de alto nível, facilitam no desenvolvimento, manutenção e portabilidade do código. No entanto, essas linguagens perdem em muito para linguagens de máquina em relação ao desempenho, por isso partes vitais do código como o [escalonador](../notes/04_gerencia_do_processador.md) e o **gestor de interrupções** são desenvolvidos em linguagem *assembly*. A seguir veremos as principais arquiteturas do *kernel*.
 
+!!! Tip "Resumo das arquiteturas:"
+
+    === "Monolítica"
+          - Núcleo único
+          - Eficiente
+          - Complexo
+          - Baixa escalabilidade
+
+    === "Camadas"
+          - Hierarquia entre níveis
+          - Abstração e redução da complexidade
+          - Redução no desempenho 
+
+    === "Máquina virtual"
+          - Isolamento
+          - Segurança
+          - Portabilidade e escalabilidade
+          - Consolidação em servidores (rodar várias aplicações em uma máquina física)
+
+    === "Micro-Kernel"
+          - Funcionalidades mínimas
+          - Proteção do núcleo
+          - Escalabilidade alta
+          - Difícil implementação
+
+
+    === "Exo-Kernel"
+          - Abstração
+          - Isolamento de recursos
+          - Segurança aprimorada
+          - Alta Eficiência das aplicações
+          - Flexibilidade
+
 ### 2.5.1 Arquitetura Monolítica
-É modelo de arquitetura mais comum e amplamente utilizado. Pode ser comparada à uma aplicação com diferentes módulos que são compilados individualmente e depois ligados, formando um grande bloco executável. É descrito por **Tanenbaum[^1]** como uma **"grande bagunça"**. Mesmo assim, possui a melhor organização para o tempo de resposta. Em suma:
+É modelo de arquitetura mais comum e amplamente utilizado. Pode ser comparada à uma aplicação com diferentes módulos que são compilados individualmente e depois ligados, formando um grande bloco executável. É descrito por **Tanenbaum[^1]** como uma **"grande bagunça"**. Mesmo assim, possui a melhor organização para o tempo de resposta. A arquitetura de núcleo monolítico agrega todas as funções do Sistema Operacional no núcleo do sistema.
 
 [^1]: Tanenbaum, A. S. Sistemas Operacionais Modernos. 4. ed. São Paulo: Pearson, 2015.
-
-
-!!! info ""
-    - Núcleo único
-    - Eficiente
-    - Complexo
-    - Baixa escalabilidade
 
 
 ### 2.5.2 Arquitetura de Camadas
 O sistema é dividido em níveis sobrepostos, nas quais cada camada pode utilizar os recursos apenas das camadas superiores. As vantagens desse modelo são o isolamento das funções do SO, o que facilita a manutenção, a criação de hierarquia entre os níveis, protegendo os níveis inferiores.
 
-!!! info ""
-    - Hierarquia entre níveis
-    - Abstração e redução da complexidade
-    - Redução no desempenho 
-
 ### 2.5.3 Máquina Virtual
 Este modelo cria um **nível intermediário** entre o *hardware* e o *sistema operacional*, onde nesse nível estão alocadas diversas máquinas virtuais que simulam o hardware. Isso permite que cada VM tenha seu próprio SO e execute as tarefas como se todo o computador estivesse dedicado a elas. Esse fato provê grande segurança para esse tipo de sistema.
 
-!!! info ""
-    - Isolamento
-    - Segurança
-    - Portabilidade e escalabilidade
-    - Consolidação em servidores (rodar várias aplicações em uma máquina física)
-
 ### 2.5.4 Micro-kernel
 Os sistemas modernos tendem a tornar o *núcleo* cada vez menor e mais simples. A arquitetura de micro-kernel aplica essa ideia, e funciona como uma relação de *cliente-servidor*. Neste caso a principal função do **núcleo(servidor)** é intermediar a comunicação entre os **processos(clientes)** por meio de **"mensagens"**. Sendo assim apenas o *kernel* roda em **modo protegido** e a maioria dos serviços em **modo usuário**.
-
-!!! info ""
-    - Funcionalidades mínimas
-    - Proteção do núcleo
-    - Escalabilidade alta
-    - Difícil implementação
 
 ### 2.5.5 Exo-kernel
 Essa arquitetura, delega a responsabilidade de gerenciamento de recursos direto aos aplicativos. Consiste na multiplexação segura do *hardware*. Fornece alta **abstração** para as aplicações. O conceito de SO é dividido em dois:
 
 1. **Exo-kernel**: Responsável pela multiplexação do hardware.
 2. **LibOS (biblioteca do SO)**: conjunto de bibliotecas que gerenciam os recursos e fornecem funções de alto nível para as aplicações. 
-
-!!! info ""
-
-       - Abstração
-       - Isolamento de recursos
-       - Segurança aprimorada
-       - Alta Eficiência das aplicações
-       - Flexibilidade
 
 
