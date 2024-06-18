@@ -13,6 +13,7 @@ nav:
     - 5. Threads: notes/05_thread.md
     - 6. Sincronização e comunicação de processos: notes/06_sincronizacao_e_comunicacao.md
     - 7. Deadlock: notes/07_deadlock.md
+    - 8. Memória: notes/08_memoria.md
 
 theme:
   name: material
