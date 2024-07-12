@@ -16,6 +16,7 @@ nav:
     - 8. Memória: notes/08_memoria.md
     - 9. Memória Virtual: notes/09_memoria_virtual.md
     - 10. Sistemas de Arquivos: notes/10_arquivos.md
+    - 11. Gerência de dispositivos: notes/11_dispositivos.md
 
 theme:
   name: material

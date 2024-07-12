@@ -119,6 +119,7 @@ Para um filósofo comer, ele precisa de dois garfos (um de cada lado). No entant
 - Adicionar mais um garfo.
 
 ## 7.2 Condições de deadlock
+
 Como vimos no problema dos filósofos, ao implementar mecanismos de proteeção à seção crítica ([exclusão mútua](./06_sincronizacao_e_comunicacao.md#63-exclusão-mutua)), podemos gerar outro problemas como os **Deadlocks** e a **Inanição**. Podemos resumir o problema dos filósofos da seguinte forma:
 
 <center>

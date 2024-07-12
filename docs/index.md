@@ -1,17 +1,160 @@
-# Welcome to MkDocs
+# Fundamentos de Sistemas Operacionais
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+## Sumário
 
-## Commands
+### [1. O que é um Sistema Operacional?](./notes/01_conceitos_basicos.md#1-o-que-e-um-sistema-operacional)
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+   - [1.1 Funções básicas dos SOs](./notes/01_conceitos_basicos.md#11-funcoes-basicas-dos-sos)
+     - [1.1.1 Facilidade de acesso aos recursos do sistema](./notes/01_conceitos_basicos.md#111-facilidade-de-acesso-aos-recursos-do-sistema)
+     - [1.1.2 Compartilhamento de recursos de forma organizada e protegida](./notes/01_conceitos_basicos.md#112-compartilhamento-de-recursos-de-forma-organizada-e-protegida)
+   - [1.2 Tipos de Sistemas Operacionais](./notes/01_conceitos_basicos.md#12-tipos-de-sistemas-operacionais)
+     - [1.2.1 Sistemas Monoprogramáveis](./notes/01_conceitos_basicos.md#121-sistemas-monoprogramaveis)
+     - [1.2.2 Sistemas Multiprogramáveis](./notes/01_conceitos_basicos.md#122-sistemas-multiprogramaveis)
+       - [1.2.2.1 Sistemas Batch (processamento em lote)](./notes/01_conceitos_basicos.md#1221-sistemas-batch-processamento-em-lote)
+       - [1.2.2.2 Sistemas de tempo compartilhado (time-sharing)](./notes/01_conceitos_basicos.md#1222-sistemas-de-tempo-compartilhado-time-sharing)
+       - [1.2.2.3 Sistemas de tempo real (real-time)](./notes/01_conceitos_basicos.md#1223-sistemas-de-tempo-real-real-time)
+     - [1.2.3 Sistemas com múltiplos processadores](./notes/01_conceitos_basicos.md#123-sistemas-com-multiplos-processadores)
+   - [1.3 Classificação de SOs](./notes/01_conceitos_basicos.md#13-classificacao-de-sos)
 
-## Project layout
+### [2. Estrutura de um Sistema Operacional](./notes/02_estrutura_SO.md)
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+   - [2.1 Funções do Kernel](./notes/02_estrutura_SO.md#21-funcoes-do-kernel)
+   - [2.2 Modos de Acesso](./notes/02_estrutura_SO.md#22-modos-de-acesso)
+   - [2.3 Rotinas do Sistema e Syscalls](./notes/02_estrutura_SO.md#23-rotinas-do-sistema-e-syscalls)
+   - [2.4 Linguagem de Comando](./notes/02_estrutura_SO.md#24-linguagem-de-comando)
+   - [2.5 Arquitetura do Núcleo](./notes/02_estrutura_SO.md#25-arquitetura-do-nucleo)
+     - [2.5.1 Arquitetura Monolítica](./notes/02_estrutura_SO.md#251-arquitetura-monolitica)
+     - [2.5.2 Arquitetura de Camadas](./notes/02_estrutura_SO.md#252-arquitetura-de-camadas)
+     - [2.5.3 Máquina Virtual](./notes/02_estrutura_SO.md#253-maquina-virtual)
+     - [2.5.4 Micro-kernel](./notes/02_estrutura_SO.md#254-micro-kernel)
+     - [2.5.5 Exo-kernel](./notes/02_estrutura_SO.md#255-exo-kernel)
+
+### [3. Processos](./notes/03_processos_e_threads.md)
+
+   - [3.1 Mas afinal, o que é um processo?](./notes/03_processos_e_threads.md#31-mas-afinal-o-que-e-um-processo)
+     - [3.1.1 Programa ou Processo?](./notes/03_processos_e_threads.md#311-programa-ou-processo)
+   - [3.2 Estrutura de um processo](./notes/03_processos_e_threads.md#32-estrutura-de-um-processo)
+     - [3.2.1 Contexto de Hardware](./notes/03_processos_e_threads.md#321-contexto-de-hardware)
+     - [3.2.2 Contexto de Software](./notes/03_processos_e_threads.md#322-contexto-de-software)
+     - [3.2.3 Espaço de Endereçamento](./notes/03_processos_e_threads.md#323-espaco-de-enderecamento)
+   - [3.3 Estados de um processo](./notes/03_processos_e_threads.md#33-estados-de-um-processo)
+     - [3.3.1 Rodando (running)](./notes/03_processos_e_threads.md#331-rodando-running)
+     - [3.3.2 Bloqueado (wait)](./notes/03_processos_e_threads.md#332-bloqueado-wait)
+     - [3.3.3 Pronto (ready)](./notes/03_processos_e_threads.md#333-pronto-ready)
+   - [3.4 Classificação de processos](./notes/03_processos_e_threads.md#34-classficacao-de-processos)
+   - [3.5 Bloco de controle de processos (PCB)](./notes/03_processos_e_threads.md#35-bloco-de-controle-de-processos-pcb)
+   - [3.6 Processos independentes, Subprocessos e Threads](./notes/03_processos_e_threads.md#36-processos-independentes-subprocessos-e-threads)
+   - [3.7 Processos em UNIX e Linux](./notes/03_processos_e_threads.md#37-processos-em-unix-e-linux)
+     - [3.7.1 Sinais](./notes/03_processos_e_threads.md#371-sinais)
+     - [3.7.2 Término de processos](./notes/03_processos_e_threads.md#372-termino-de-processos)
+
+### [4. Gerência do processador](./notes/04_gerencia_do_processador.md)
+
+   - [4.1 Escalonador e critérios de escalonamento](./notes/04_gerencia_do_processador.md#41-escalonador-e-criterios-de-escalonamento)
+     - [4.1.1 Escalonadores Preemptivos e Não-Preemptivos](./notes/04_gerencia_do_processador.md#411-escalonadores-preemptivos-e-nao-preemptivos)
+   - [4.2 Algoritmos de escalonamento](./notes/04_gerencia_do_processador.md#42-algoritmos-de-escalonamento)
+     - [4.2.1 First Come First Served (FCFS)](./notes/04_gerencia_do_processador.md#421-first-come-first-served)
+     - [4.2.2 Round-Robin (Escalonamento circular)](./notes/04_gerencia_do_processador.md#422-round-robin-escalonamento-circular)
+     - [4.2.3 Escalonamento por Prioridades](./notes/04_gerencia_do_processador.md#423-escalonamento-por-prioridades)
+     - [4.2.4 Shortest Job First (SJF)](./notes/04_gerencia_do_processador.md#424-shortest-job-first-sjf)
+     - [4.2.5 Escalonamento em dois níveis](./notes/04_gerencia_do_processador.md#425-escalonamento-em-dois-niveis)
+
+### [5. Threads](./notes/05_thread.md)
+  - [5.1 O que são threads?](./notes/05_thread.md#51-o-que-sao-threads)
+  - [5.2 Comparação: Processos vs. Threads](./notes/05_thread.md#52-comparacao-processos-vs-threads)
+  - [5.3 Ambiente monothread](./notes/05_thread.md#53-ambiente-monothread)
+  - [5.4 Ambiente multithread](./notes/05_thread.md#54-ambiente-multithread)
+  - [5.5 Programação multithreading](./notes/05_thread.md#55-programacao-multithreading)
+    - [5.5.1 Implementação de threads](./notes/05_thread.md#551-implementacao-de-threads)
+      - [5.5.1.1 Threads em modo usuário](./notes/05_thread.md#5511-threads-em-modo-usuario)
+      - [5.5.1.2 Threads em modo kernel](./notes/05_thread.md#5512-threads-em-modo-kernel)
+      - [5.5.1.3 Abordagem híbrida](./notes/05_thread.md#5513-abordagem-hibrida)
+    - [5.5.2 Modelo de execução de threads](./notes/05_thread.md#552-modelo-de-execucao-de-threads)
+      - [5.5.2.1 Modelo despachante/trabalhador](./notes/05_thread.md#5521-modelo-despachantetrabalhador)
+      - [5.5.2.2 Modelo time/team](./notes/05_thread.md#5522-modelo-timeteam)
+      - [5.5.2.3 Modelo pipeline](./notes/05_thread.md#5523-modelo-pipeline)
+
+### [6. Sincronização e comunicação entre processos](./notes/06_sincronizacao_e_comunicacao.md)
+  - [6.1 A arte de multiprogramar](./notes/06_sincronizacao_e_comunicacao.md#61-a-arte-de-multiprogramar)
+  - [6.2 Compartilhamento de recursos (condição de corrida)](./notes/06_sincronizacao_e_comunicacao.md#62-compartilhamento-de-recursos-condicao-de-corrida)
+  - [6.3 Exclusão mútua](./notes/06_sincronizacao_e_comunicacao.md#63-exclusao-mutua)
+  - [6.4 Técnicas de implementação](./notes/06_sincronizacao_e_comunicacao.md#64-tecnicas-de-implementacao)
+    - [6.4.1 Inibir interrupções](./notes/06_sincronizacao_e_comunicacao.md#641-inibir-interrupcoes)
+    - [6.4.2 Espera ocupada](./notes/06_sincronizacao_e_comunicacao.md#642-espera-ocupada)
+        - [6.4.2.1 Estrita alternância](./notes/06_sincronizacao_e_comunicacao.md#6421-estrita-alternancia)
+        - [6.4.2.2 Algoritmo de Peterson](./notes/06_sincronizacao_e_comunicacao.md#6422-algoritmo-de-peterson)
+        - [6.4.2.3 Utilizar hardware adicional (TSL)](./notes/06_sincronizacao_e_comunicacao.md#6423-utilizar-hardware-adicional-tsl)
+    - [6.4.3 Bloqueio de processos](./notes/06_sincronizacao_e_comunicacao.md#643-bloqueio-de-processos)
+        - [6.4.3.1 Semáforo](./notes/06_sincronizacao_e_comunicacao.md#6431-semaforo)
+        - [6.4.3.2 Mutex](./notes/06_sincronizacao_e_comunicacao.md#6432-mutex)
+        - [6.4.3.3 Locks](./notes/06_sincronizacao_e_comunicacao.md#6433-locks)
+        - [6.4.3.4 Monitores](./notes/06_sincronizacao_e_comunicacao.md#6434-monitores)
+    - [6.5 Troca de mensagens](./notes/06_sincronizacao_e_comunicacao.md#65-troca-de-mensagens)
+    - [6.6 Barreiras](./notes/06_sincronizacao_e_comunicacao.md#66-barreiras)
+
+
+### [7. Deadlocks](./notes/07_deadlock.md)
+
+- [7.1 Jantar dos filósofos](./notes/07_deadlock.md#71-o-jantar-dos-filosofos)
+    - [7.1.1 Possíveis soluções](./notes/07_deadlock.md#711-possiveis-solucoes)
+    - [7.1.2 Soluções completas](./notes/07_deadlock.md#712-solucoes-completas)
+- [7.2 Condições de deadlock](./notes/07_deadlock.md#72-condicoes-de-deadlock)
+
+### [8. Memória](./notes/08_memoria.md)
+  - [8.1 Funções básicas](./notes/08_memoria.md#81-funcoes-basicas)
+  - [8.2 Esquemas de gerenciamento de memória](./notes/08_memoria.md#82-esquemas-de-gerenciamento-de-memoria)
+    - [8.2.1 Alocação contígua simples](./notes/08_memoria.md#821-alocacao-contigua-simples)
+    - [8.2.2 Alocação particionada estática](./notes/08_memoria.md#822-alocacao-particionada-estatica)
+    - [8.2.3 Alocação particionada dinâmica](./notes/08_memoria.md#823-alocacao-particionada-dinamica)
+  - [8.3 Algoritmos de alocação de memória](./notes/08_memoria.md#83-algoritmos-de-alocacao-de-memoria)
+    - [8.3.1 First Fit (primeiro encaixe)](./notes/08_memoria.md#831-first-fit-primeiro-encaixe)
+    - [8.3.2 Best Fit (melhor encaixe)](./notes/08_memoria.md#832-best-fit-melhor-encaixe)
+    - [8.3.3 Worst Fit (pior encaixe)](./notes/08_memoria.md#833-worst-fit-pior-encaixe)
+  - [8.4 Gerenciamento de espaço livre](./notes/08_memoria.md#84-gerenciamento-de-espaco-livre)
+    - [8.4.1 Mapa de bits](./notes/08_memoria.md#841-mapa-de-bits)
+    - [8.4.2 Lista encadeada](./notes/08_memoria.md#842-lista-encadeada)
+  - [8.5 Swapping](./notes/08_memoria.md#85-swapping)
+  - [8.6 Overlay](./notes/08_memoria.md#86-overlay)
+
+### [9. Memória virtual](./notes/09_memoria_virtual.md)
+
+- [Introdução](./notes/09_memoria_virtual.md#91-introducao)
+- [Implementação](./notes/09_memoria_virtual.md#92-implementacao)
+- [Endereçamento Virtual](./notes/09_memoria_virtual.md#93-enderecamento-virtual)
+- [Mapeamento](./notes/09_memoria_virtual.md#94-mapeamento)
+5. [Memória Virtual por Paginação](./notes/09_memoria_virtual.md#95-memoria-virtual-por-paginacao)
+      - [Busca de Páginas](./notes/09_memoria_virtual.md#951-busca-de-paginas)
+      2. [Alocação de Páginas](./notes/09_memoria_virtual.md#952-alocacao-de-paginas)
+      3. [Substituição de Páginas](./notes/09_memoria_virtual.md#953-substituicao-de-paginas)
+6. [Working Set](./notes/09_memoria_virtual.md#96-working-set)
+7. [Algoritmos de Substituição de Páginas](./notes/09_memoria_virtual.md#97-algoritmos-de-substituicao-de-paginas)
+      - [Ótimo](./notes/09_memoria_virtual.md#971-otimo)
+      2. [Aleatório](./notes/09_memoria_virtual.md#972-aleatorio)
+      3. [FIFO (First-In-First-Out)](./notes/09_memoria_virtual.md#973-fifo-first-in-first-out)
+      4. [LFU (Least-Frequently-Used)](./notes/09_memoria_virtual.md#974-lfu-least-frequently-used)
+      5. [LRU (Least-Recently-Used)](./notes/09_memoria_virtual.md#975-lru-least-recently-used)
+      6. [NRU (Not-Recently-Used)](./notes/09_memoria_virtual.md#976-nru-not-recently-used)
+      7. [FIFO Circular (Clock)](./notes/09_memoria_virtual.md#977-fifo-circular-clock)
+8. [Tamanho das Páginas](./notes/09_memoria_virtual.md#98-tamanho-das-paginas)
+9. [Paginação de Múltiplos Níveis](./notes/09_memoria_virtual.md#99-paginacao-de-multiplos-niveis)
+10. [Proteção de Memória](./notes/09_memoria_virtual.md#910-protecao-de-memoria)
+11. [Memória Virtual por Segmentação](./notes/09_memoria_virtual.md#911-memoria-virtual-por-segmentacao)
+12. [Paginação vs. Segmentação](./notes/09_memoria_virtual.md#912-paginacao-vs-segmentacao)
+13. [Memória Virtual por Paginação e Segmentação](./notes/09_memoria_virtual.md#913-memoria-virtual-por-paginacao-e-segmentacao)
+
+### [10. Sistema de Arquivos](./notes/10_arquivos.md)
+
+- [10.1 O que é um arquivo?](./notes/10_arquivos.md#101-o-que-e-um-arquivo)
+2. [10.2 Organização de arquivos](./notes/10_arquivos.md#102-organizacao-de-arquivos)
+    - [10.2.1 Sequência de bytes](./notes/10_arquivos.md#1021-sequencia-de-bytes)
+    2. [10.2.2 Sequência de registros](./notes/10_arquivos.md#1022-sequencia-de-registros)
+    3. [10.2.3 Árvores de registros](./notes/10_arquivos.md#1023-arvores-de-registros)
+3. [10.3 Tipos de arquivos](./notes/10_arquivos.md#103-tipos-de-arquivos)
+4. [10.4 Métodos de acesso](./notes/10_arquivos.md#104-metodos-de-acesso)
+5. [10.5 Diretórios](./notes/10_arquivos.md#105-diretorios)
+6. [10.6 Gerência de espaço livre em disco](./notes/10_arquivos.md#106-gerencia-de-espaco-livre-em-disco)
+7. [10.7 Gerência de alocação de espaço](./notes/10_arquivos.md#107-gerencia-de-alocacao-de-espaco)
+    - [10.7.1 Alocação Contígua](./notes/10_arquivos.md#1071-alocacao-contigua)
+    2. [10.7.2 Alocação Encadeada](./notes/10_arquivos.md#1072-alocacao-encadeada)
+    3. [10.7.3 Alocação indexada](./notes/10_arquivos.md#1073-alocacao-indexada)
+8. [10.8 Operações com arquivos](./notes/10_arquivos.md#108-operacoes-com-arquivos)

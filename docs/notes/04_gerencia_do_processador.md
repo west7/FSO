@@ -154,7 +154,7 @@ Bom, se a troca de contexto levar um tempo muito maior que o quantum, os process
     ```
 
 
-### 4.2.3 Escalonadomento por Prioridades
+### 4.2.3 Escalonamento por Prioridades
 É um algoritmo no qual os processos são selecionados com base em sua prioridade. Baseia-se no fato de alguns processos são mais prioritários e, portanto, devem ser executados primeiro. Este é um escalonador **preemptivo**, porém não existe um tempo determinado que um processo pode executar. Ele irá rodar até que ele mesmo cause seu bloqueio ou até que um processo de maior prioridade fique pronto. Processos com igual prioridade são selecionados por ordem de chegada.Para cada processo é atribuída uma prioridade que pode ser **Estática** ou **Dinâmica**.
 
 1. **Prioridade Estática**: Para cada processo é atribuída uma classe/valor, onde cada classe possui sua fila de prontos. ==A prioridade não é alterada durante a existência do processo==.
