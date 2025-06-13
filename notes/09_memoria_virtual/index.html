@@ -1,0 +1,1352 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Site destinado à documentação da apostila Fundamentos de sistemas operacionais.">
+      
+      
+        <meta name="author" content="Guilherme Westphall">
+      
+      
+        <link rel="canonical" href="https://west7.github.io/FSO/notes/09_memoria_virtual/">
+      
+      
+        <link rel="prev" href="../08_memoria/">
+      
+      
+        <link rel="next" href="../10_arquivos/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>9. Memória Virtual - Fundamentos de Sistemas Operacionais</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="deep-purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#9-memoria-virtual" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href="../.." title="Fundamentos de Sistemas Operacionais" class="md-header__button md-logo" aria-label="Fundamentos de Sistemas Operacionais" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Fundamentos de Sistemas Operacionais
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              9. Memória Virtual
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="deep-purple"  aria-label="Mudar para o modo escuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Mudar para o modo escuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="deep-purple"  aria-label="Mudar para o modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Mudar para o modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Abas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Início
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../01_conceitos_basicos/" class="md-tabs__link">
+          
+  
+  
+  Conteúdos
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Fundamentos de Sistemas Operacionais" class="md-nav__button md-logo" aria-label="Fundamentos de Sistemas Operacionais" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Fundamentos de Sistemas Operacionais
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Início
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Conteúdos
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Conteúdos
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01_conceitos_basicos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1. Conceitos básicos
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02_estrutura_SO/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2. Estrutura do Sistema Operacional
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03_processos_e_threads/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3. Processos
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04_gerencia_do_processador/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4. Gerência do processador
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05_thread/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    5. Threads
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06_sincronizacao_e_comunicacao/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    6. Sincronização e comunicação de processos
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07_deadlock/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    7. Deadlock
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08_memoria/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    8. Memória
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    9. Memória Virtual
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    9. Memória Virtual
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#91-introducao" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.1 Introdução
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#92-implementacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.2 Implementação
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#93-enderecamento-virtual" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.3 Endereçamento Virtual
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#94-mapeamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.4 Mapeamento
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#95-memoria-virtual-por-paginacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.5 Memória virtual por paginação
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9.5 Memória virtual por paginação">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#951-busca-de-paginas" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.5.1 Busca de páginas
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#952-alocacao-de-paginas" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.5.2 Alocação de páginas
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#953-substituicao-de-paginas" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.5.3 Substituição de páginas
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#96-working-set" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.6 Working set
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#97-algoritmos-de-substituicao-de-paginas" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.7 Algoritmos de substituição de páginas
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9.7 Algoritmos de substituição de páginas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#971-otimo" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.7.1 Ótimo
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#972-aleatorio" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.7.2 Aleatório
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#973-fifo-first-in-first-out" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.7.3 FIFO (First-In-First-Out)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#974-lfu-least-frequently-used" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.7.4 LFU (Least-Frequently-Used)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#975-lru-least-recently-used" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.7.5 LRU (Least-Recently-Used)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#976-nru-not-recently-used" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.7.6 NRU (Not-Recently-Used)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#977-fifo-circular-clock" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.7.7 FIFO circular (clock)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#98-tamanho-das-paginas" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.8 Tamanho das páginas
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#99-paginacao-de-multiplos-niveis" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.9 Paginação de múltiplos níveis
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#910-protecao-de-memoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.10 Proteção de Memória
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#911-memoria-virtual-por-segmentacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.11 Memória virtual por segmentação
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#912-paginacao-vs-segmentacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.12 Paginação vs. Segmentação
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#913-memoria-virtual-por-paginacao-e-segmentacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.13 Memória virtual por paginação e segmentação
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10_arquivos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    10. Sistemas de Arquivos
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#91-introducao" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.1 Introdução
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#92-implementacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.2 Implementação
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#93-enderecamento-virtual" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.3 Endereçamento Virtual
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#94-mapeamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.4 Mapeamento
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#95-memoria-virtual-por-paginacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.5 Memória virtual por paginação
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9.5 Memória virtual por paginação">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#951-busca-de-paginas" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.5.1 Busca de páginas
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#952-alocacao-de-paginas" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.5.2 Alocação de páginas
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#953-substituicao-de-paginas" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.5.3 Substituição de páginas
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#96-working-set" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.6 Working set
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#97-algoritmos-de-substituicao-de-paginas" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.7 Algoritmos de substituição de páginas
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9.7 Algoritmos de substituição de páginas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#971-otimo" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.7.1 Ótimo
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#972-aleatorio" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.7.2 Aleatório
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#973-fifo-first-in-first-out" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.7.3 FIFO (First-In-First-Out)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#974-lfu-least-frequently-used" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.7.4 LFU (Least-Frequently-Used)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#975-lru-least-recently-used" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.7.5 LRU (Least-Recently-Used)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#976-nru-not-recently-used" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.7.6 NRU (Not-Recently-Used)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#977-fifo-circular-clock" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.7.7 FIFO circular (clock)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#98-tamanho-das-paginas" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.8 Tamanho das páginas
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#99-paginacao-de-multiplos-niveis" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.9 Paginação de múltiplos níveis
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#910-protecao-de-memoria" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.10 Proteção de Memória
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#911-memoria-virtual-por-segmentacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.11 Memória virtual por segmentação
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#912-paginacao-vs-segmentacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.12 Paginação vs. Segmentação
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#913-memoria-virtual-por-paginacao-e-segmentacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      9.13 Memória virtual por paginação e segmentação
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="9-memoria-virtual">9. Memória virtual</h1>
+<h2 id="91-introducao">9.1 Introdução</h2>
+<p>Em <a href="../08_memoria/">Memória</a>, vimos que o uso de <strong>partições de tamanho variável</strong> era mais eficiente e flexível, porém o problema da <a href="../08_memoria/#823-alocacao-particionada-dinamica">fragmentação externa</a> era constante e poderia precisar até de intervenção do SO. </p>
+<p>Uma forma de minimizar esse problema seria o uso da memória virtual, implementado na grande maioria dos sistemas operacionais modernos. É uma técnica semelhante ao <a href="../08_memoria/#86-overlay">Overlay</a>, porém não seria implementada pelo programador e sim pelo SO. A memória virtual é uma técnica sofisticada e muito poderosa, onde as memórias principal e secundária são combinadas, afim de dar a ilusão de que existe uma memória muito maior do que o real espaço da memória principal. </p>
+<p>Processos não referenciam mais endereços físicos da memória e sim <strong>endereços virtuais</strong> que vão além do espaço da memória principal. Ela permite um número maior de processos residentes, já que apenas partes deles são de fato carregados, isso leva a um melhor uso da CPU, além de minimizar o problema de fragmentação.</p>
+<h2 id="92-implementacao">9.2 Implementação</h2>
+<p>A memória virtual foi implementada primeiro no sistema operacional Atlas, desenvolvido na Universidade de Manchester em 1962. Muitas modificações necessárias para implement-la são feitas <strong>diretamente no hardware</strong>, por isso os SOs devem levar em conta a arquitetura do computador, especialmente o esquema de endereçamento do processador.</p>
+<h2 id="93-enderecamento-virtual">9.3 Endereçamento Virtual</h2>
+<p>Um endereçamento virtual pode ser comparado ao acesso a um vetor na memória, o programador não precisa se preocupar com qual endereço ele está acessando, está é uma tarefa do compilador. A abstração para a memória virtual é bastante semelhante, os programas não fazem referência para os endereços físicos (endereço real na memória), mas sim para um endereço virtual. Esse endereço virtual será posteriormente substituído pelo real valor, no momento da execução, já que o processador pode lidar somente com endereços reais na memória. Esta mudança de virtual para real é denominada <strong>mapeamento</strong>.</p>
+<p>Como o espaço virtual não possui relação alguma com o espaço real, os processos podem referenciar um endereço que está fora do limite da memória principal. Isso somente é possível porque o sistema combina a memória secundária à memória principal. Quando um programa é executado somente uma parte dele fica residente, permanecendo o restante na memória secundária até que seja o momento de ser referenciado. </p>
+<center>
+
+<pre class="mermaid"><code>graph LR;
+A[["Memória Virtual"]] --&gt; B[["Memória Principal (RAM)"]]
+A --&gt; C[("Memória secundária (Disco)")]</code></pre>
+</center>
+
+<p>No desenvolvimento de aplicações, o programador não precisa se preocupar com endereços virtuais, apenas informa o tamanho de memória necessário. Durante a <strong>compilação</strong> e a <strong>montagem</strong>, endereços virtuais são colocados no código executável. Esses que serão usados pelo SO para mapear endereços reais durante a execução.</p>
+<h2 id="94-mapeamento">9.4 Mapeamento</h2>
+<p>Um endereço virtual não pode ser acessado pelo processador, por isso há a necessidade de traduzi-los para endereços reais. Essa tarefa é realizada juntamente pelo SO e pelo hardware. A unidade física que é responsável pelo mapeamento é chamado unidade de gerência de memória (MMU), sendo acionado toda vez que uma referência a espaço virtual ocorre.</p>
+<p>Cada processo possui seu próprio espaço de endereçamento virtual, como se possuísse sua própria memória, e sua própria tabela de mapeamento que relaciona os endereços virtuais aos reais. Esta tabela é alterada a cada troca de contexto. Um registrador da CPU aponta para a entrada da tabela corrente.</p>
+<center>
+<pre class="mermaid"><code>graph LR;
+A["Endereços Virtuais"] --&gt; B((Mapeamento)) --&gt; C["Endereços reais"]
+A --&gt; B --&gt; C
+A --&gt; B --&gt; C</code></pre>
+</center>
+
+<p>Vale dizer que, cada célula da memória não corresponde a uma única entrada (linha) da tabela, caso contrário ela seria imensa, mas corresponde a um <strong>bloco</strong> de memória no mapeamento, e não células individuais.</p>
+<center>
+
+| Espaço virtual | Tamanho do bloco | Número de entradas da tabela |
+| -------------- | :--------------: | ---------------------------: |
+| 2³²            |  512 endereços   |                          2²³ |
+| 2³² endereços  |   4K endereços   |                          2²⁰ |
+| 2⁶⁴ endereços  |   4K endereços   |                          2⁵² |
+| 2⁶⁴ endereços  |  64K endereços   |                          2⁴⁸ |
+
+</center>
+
+<div class="admonition info">
+<p class="admonition-title">Vantagens deste modelo de mapeamento</p>
+<p>As principais vantagens deste tipo de mapeamento são duas:</p>
+<ol>
+<li>Pode-se usar memória secundária e memória
+primária para criar uma memória maior que a
+disponível.</li>
+<li>E algo muito importante: os processos não
+precisam necessariamente serem alocados em
+memória contínua. </li>
+</ol>
+</div>
+<h2 id="95-memoria-virtual-por-paginacao">9.5 Memória virtual por paginação</h2>
+<p>Uma forma de dividir o endereçamento virtual e real é por meio da <strong>paginação</strong>. Esta técnica divide a memória em partes iguais de <strong>tamanho fixo</strong>, páginas. Páginas no espaço virtual são páginas virtuais e páginas no espaço real são páginas reais ou frames. A CPU envia o endereço virtual (v) para a MMU, onde o endereço virtual é dividido em (p, d), página e deslocamento. A MMU utiliza p para acessar o frame f na qual a página p reside, ela substitui p por f e adiciona (f, d) ao barramento.</p>
+<p>Sempre que um endereço virtual é referenciado e ele não está na memória principal é gerado um <strong>page fault</strong>. Neste caso, o sistema realiza uma transferência de página da memória secundária para a principal, conhecido como <strong>page in</strong>. O sistema irá escolher uma outra página para ir a memória secundária e executará a instrução que causou a excessão novamente. Quando isso ocorre, o processo vai para estado de bloqueado até que a operação de paginação (operação de I/O) termine. O processo contrário, mover uma página da memória RAM para o disco, é conhecido como <strong>page out</strong>.</p>
+<h3 id="951-busca-de-paginas">9.5.1 Busca de páginas</h3>
+<p>Existem duas maneiras de buscar páginas na memória:</p>
+<p><strong>1. Paginação por demanda</strong>: Uma página somente é movida quando requisitada.</p>
+<p><strong>2. Paginação antecipada</strong>: Ao mover uma página o sistema já busca antecipar possíveis futuras requisições, movendo páginas próximas.</p>
+<h3 id="952-alocacao-de-paginas">9.5.2 Alocação de páginas</h3>
+<p>A política de alocação de páginas determina quantos frames cada processo pode ter na memória principal.</p>
+<p><strong>1. Alocação fixa</strong>: Cada processo tem um número máximo de frames que pode ocupar durante a execução. Caso atinja o limite um <strong>page fault</strong> é forçado. É justo, porém não prático, as aplicações têm requisitos de memória muito diferenciado. Se o número de frames for pequeno para aquela aplicação muitos page faults são forçados mesmo tendo espaço disponível. Se o número for muito grande, cada processo ocupa muito espaço diminuindo o número de processos residentes.</p>
+<p><strong>2. Alocação variável</strong>: O número de frames que cada processo pode ocupar varia durante a execução de acordo com a taxa de paginação (número de page faults) e com o espaço disponível. Processos com alta taxa de paginação podem aumentar o limite de frames e processos com baixa taxa liberam seus frames excedentes para outros processos.</p>
+<h3 id="953-substituicao-de-paginas">9.5.3 Substituição de páginas</h3>
+<p>Quando substituições de páginas são necessárias o sistema realiza as trocas e coloca as movimentações de <strong>page in</strong> e <strong>page out</strong> em um arquivo chamado <strong>arquivo de paginação</strong>. Nem todas as páginas precisam ser copiadas para o arquivo (páginas que não serão mais usadas, por exemplo). Já páginas que são modificáveis, ou seja, sofrem alteração durante a execução são marcadas por um <strong>bit de modificação</strong>.</p>
+<p>A substituição de páginas pode ser classificada quanto ao escopo, ou seja, dentre os processos residentes quais são os candidatos a terem páginas realocadas:</p>
+<ol>
+<li>Substituição local: Apenas as páginas do processo que gerou o page fault são candidatas a realocação.</li>
+<li>Substituição global: Todas as páginas de todos os processos residentes são candidatas a realocação, na verdade nem todas, algumas páginas como a do núcleo do sistema são marcadas como bloqueadas e não podem ser trocadas. </li>
+</ol>
+<h2 id="96-working-set">9.6 Working set</h2>
+<p>Um desafio de implementar a memória virtual é a decisão de quais páginas devem se mater e quais devem sair. Como já se sabe, caso o número de páginas for muito pequeno podem ocorrer inúmeras operações de paginação, ocupado o processador quase que na totalidade, o já conhecido <em>thrashing</em>. Mas, na mesma medida, o sistema deve manter o número mínimo de páginas por processo, para maximizar o compartilhamento de memória.</p>
+<p>O <strong>working set</strong> surgiu na intenção de diminuir a ocorrência de <em>thrashing</em>. Este mecanismo funciona com base no <strong>princípio da localidade</strong>. Existem dois tipos de localidade observados:</p>
+<ol>
+<li>Localidade espacial: É a tendência de após uma referência a um determinado endereço, sejam realizadas referências a endereços próximos.</li>
+<li>Localidade temporal: É a tendência de após uma referência a um endereço, ele seja novamente referenciado em um curto espaço de tempo.</li>
+</ol>
+<p>Em suma, o processador tende a permanecer focado em um conjunto de páginas por um determinado período de tempo. Imagine um laço de repetição que ocupe 3 páginas. A tendência de essas 3 páginas serem referenciadas diversas vezes seguidas é muito alta.</p>
+<p>No começo da execução de um programa o número de page faults é muito elevado, pois nenhum frame está carregado em memória. Ao decorrer da execução este número diminui e depois volta a aumentar, porque o programa entrou em uma nova "fase", que nada mais é que um subconjunto de páginas.</p>
+<p>Dentro de um working set, o <strong>número de páginas referenciadas</strong> é conhecido como o <strong>tamanho do working set</strong>. Isso ajuda a calcular quais são as páginas necessárias para a execução do programa. Este modelo deve ser implementado em um ambiente com <strong>alocação de páginas variável</strong>, para que o SO possa ajustar o número de páginas de acordo com o tamanho do working set de cada processo. Mas, ainda esse não é o maior problema da gerência de memória virtual, e sim decidir quais páginas retirar da memória.</p>
+<h2 id="97-algoritmos-de-substituicao-de-paginas">9.7 Algoritmos de substituição de páginas</h2>
+<p>A partir do princípio da localidade podem ser selecionadas algumas páginas para remoção. O algoritmo deve ser rápido para diminuir o overhead do sistema. O principal objetivo dos algoritmos é tentar prever o comportamento dos programas e escolher aquelas páginas com menor chance de serem referenciadas em um futuro próximo.</p>
+<h3 id="971-otimo">9.7.1 Ótimo</h3>
+<p>Este algoritmo seleciona as páginas que não serão mais usadas no futuro ou aquela com maior tempo até uma nova referência. É um algoritmo usado apenas como ideal, pois na prática <strong>é impossível de ser implementado</strong>.</p>
+<h3 id="972-aleatorio">9.7.2 Aleatório</h3>
+<p>O algoritmo seleciona aleatoriamente as páginas a serem substituídas. Como o futuro é indeterminado, ele visa diminuir ao máximo o overhead do sistema de selecionar uma página. Na prática <strong>não é muito eficiente</strong>.</p>
+<h3 id="973-fifo-first-in-first-out">9.7.3 FIFO (First-In-First-Out)</h3>
+<p>Seleciona a página que está a mais tempo residente, mantendo as mais novas. Implementado usando fila. Contudo, considera apenas a criação da página e não os acessos, uma página recém acessada pode ser removida, <strong>violando o princípio da localidade temporal</strong>.</p>
+<h3 id="974-lfu-least-frequently-used">9.7.4 LFU (Least-Frequently-Used)</h3>
+<p>Seleciona a página menos utilizada, com isso, cria-se um overhead de manter um contador de acessos para cada página. Aparenta ser uma boa estratégia, <strong>porém é injusto</strong>, novas páginas com contadores baixos serão frequentemente removidas enquanto páginas antigas com altos contadores nunca serão.</p>
+<h3 id="975-lru-least-recently-used">9.7.5 LRU (Least-Recently-Used)</h3>
+<p>O algoritmo seleciona páginas que estão a mais tempo sem acesso. Leva em conta o princípio da localidade. O tempo de acesso precisa ser guardado para cada frame, e pode ser implementado por meio de uma lista encadeada ou fila de prioridades. Possui <strong>alto custo de implementação</strong>.</p>
+<h3 id="976-nru-not-recently-used">9.7.6 NRU (Not-Recently-Used)</h3>
+<p>É um simplificação do algoritmo anterior, ao invés de existir um contador para cada processo há apenas um bit de referência na tabela de paginação. Se uma página foi acessada é marcada com <strong>1</strong>, periodicamente o sistema reseta todas as páginas para <strong>0</strong>, dessa forma, quando as páginas forem marcadas novamente, ele poderá distinguir quais estão sendo acessadas e quais não. <strong>A estratégia possui sucesso quando combinada com bit de modficação</strong>. Priorizará páginas que não foram modificadas nem acessadas. Se não houver nenhuma nessa condição, selecionará aquelas modificas mas não acessadas, preservando o princípio da localidade.</p>
+<h3 id="977-fifo-circular-clock">9.7.7 FIFO circular (clock)</h3>
+<p>Algoritmo FIFO que utiliza estrutura circular, similar a um relógio. Usado em muito sistemas Unix. Existe um ponteiro que guarda a posição da página mais antiga e cada página possui um bit de referência. Se o bit r for igual a <strong>0</strong>, indicando que não teve acesso recente, a página removida. Se r igual a <strong>1</strong>, r é marcado com <strong>0</strong> e passa-se para o próximo elemento até encontrar um r igual a 0 ou até dar uma volta completa na lista. Se a volta for completa, a página mais antiga será removida como um FIFO puro. Não há overhead de zerar todos os bits periodicamente.</p>
+<h2 id="98-tamanho-das-paginas">9.8 Tamanho das páginas</h2>
+<p>Selecionar o tamanho das páginas é um fator importante para a implementação da memória virtual. O tamanho pode ser muito variado. Páginas muito grandes diminuem o tamanho da tabela de paginção mas aumentam a fragmentação interna. Páginas pequenas possuem tabelas maiores mas melhoram a utilização da memória. Outro fator importante é o tempo de leitura na memória secundária, duas páginas de 512B podem demorar muito mais que uma de 1024B. Sistemas modernos optam por páginas de 4KB ou 8KB.</p>
+<h2 id="99-paginacao-de-multiplos-niveis">9.9 Paginação de múltiplos níveis</h2>
+<p>Em sistemas que possuem apenas um nível de paginação, o tamanho das tabelas de páginas pode ser um problema. Com vários processos residentes, gerenciar um alto número de tabelas de tamanho grande pode ser um desafio. Para contornar este problemas, tabelas de múltiplos níveis podem ser usadas. A ideia é aplicar o princípio da localidade não somente as páginas em memória, mas também as tabelas de mapeamento. Somente seriam mantidas em memórias as informações sobre páginas realmente relevantes aos processos. Existem tabelas de 1 até 4 níveis, porém um número alto de páginas causa um overhead muito grande.</p>
+<h2 id="910-protecao-de-memoria">9.10 Proteção de Memória</h2>
+<p>Em qualquer sistema multiprogramável, a proteção de memória entre aplicações e o sistema operacional é imprescindível. O SO deve proibir que programas alterem páginas do sistema livremente. Até mesmo páginas do próprio processo devem ser protegidas contra ele mesmo, as que contém código executável por exemplo. </p>
+<p>Um primeiro nível de proteção é trazido pelo próprio modelo de paginação. Cada processo possui sua própria tabela de mapeamento que é traduzida pelo sistema. Portanto, a não ser que haja compartilhamento de páginas explícito, um processo não pode acessar páginas de outro. Existem 3 níveis de acesso: Sem acesso, apenas leitura e leitura e gravação. Sempre que uma página for referenciada, o SO verifica se a operação é permitida, caso contrário um erro é gerado. Esta é uma operação bastante complicada.</p>
+<center>
+
+| LG  | Níveis de acesso |
+| --- | ---------------- |
+| 00  | Sem acesso       |
+| 10  | Leitura          |
+| 11  | Leitura/gravação |
+
+</center>
+
+<h2 id="911-memoria-virtual-por-segmentacao">9.11 Memória virtual por segmentação</h2>
+<p>Memória virtual por segmentação é uma técnica que divide o espaço de endereçamento virtual em <strong>blocos de tamanho variado</strong>, segmentos. Nesta técnica, o programa é dividido logicamente em subrotinas e estruturas de dados e cada um é alocado em um segmento na memória principal.</p>
+<p>A divisão desses segmentos é geralmente feita pelo compilador e cada segmento é uma sequência linear de endereços que pode mudar de tamanho. Limites sobre o tamanho de segmentos e quantidade de segmentos por processo são estabelecidos. A alocação de dos segmentos segue um padrão lógico de acordo com o código-fonte do programa, e os segmentos podem representar funções, variáveis, arrays, etc. </p>
+<p>O mecanismo de mapeamento é muito semelhante ao da paginação, segmentos são mapeados por tabelas de segmentos, endereços são compostos pelo número de segmento virtual (NSV) e o deslocamento. </p>
+<p>Um grande bônus em relação à paginação é a facilidade em lidar com estruturas de dados dinâmicas. Apenas os segmentos referenciados serão transferidos da memória secundária para a principal, por isso, para que funcione de maneira eficiente, o programa deve ser desenvolvido buscando a separação em módulos, caso contrário muitos segmentos estarão em memória desnecessariamente. Para alocar os segmentos o sistema pode utilizar a mesma estratégia da alocação particionada dinâmica <a href="../08_memoria/#831-first-fit-primeiro-encaixe">(first-fit, best-fit ou worst-fit)</a>.</p>
+<h2 id="912-paginacao-vs-segmentacao">9.12 Paginação vs. Segmentação</h2>
+<p>Enquanto na paginação há o problema da <strong>fragmentação interna</strong>, aqui há o problema da <strong>fragmentação externa</strong>. A proteção de dados na segmentação é muito mais simples. Cada segmento possui um conteúdo bem definido, portanto alguns bits na tabela de segmentos bastam para definir o nível de acesso. Na paginação áreas de dados e de código estão misturadas, por isso é complexa a proteção. Na segmentação também é mais simples o compartilhamento de dados, basta que as tabelas de segmentos de diversos processos apontem para o mesmo segmento na memória, por exemplo o acesso a um vetor em paginação pode exigir vários acessos a uma página, enquanto na segmentação um único acesso.</p>
+<center>
+
+| Característica            | Paginação   | Segmentação   |
+| ------------------------- | ----------- | ------------- |
+| **Tamanho dos blocos**    | Fixo        | Variável      |
+| **Proteção**              | Complexa    | Simples       |
+| **Compartilhamento**      | Complexo    | Simples       |
+| **Estruturas dinâmicas**  | Complexo    | Simples       |
+| **Fragmentação**          | Interna     | Externa       |
+| **Programação modular**   | Dispensável | Indispensável |
+| **Alteração do programa** | Trabalhosa  | Simples       |
+
+</center>
+
+<h2 id="913-memoria-virtual-por-paginacao-e-segmentacao">9.13 Memória virtual por paginação e segmentação</h2>
+<p>Esta estratégia busca combinar as vantagens dos dois modelos. O espaço de endereçamento virtual é dividido em segmentos e cada segmento em páginas. Para o programador a aplicação continua dividida em segmentos, porém o sistema vê cada segmento como um conjunto de páginas de mesmo tamanho, mapeadas por uma tabela de páginas associadas ao segmento. Assim, um segmento não precisa estar contíguo na memória, <strong>eliminando o problema da fragmentação externa</strong> presente na segmentação pura.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar para o topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Rodapé" >
+        
+          
+          <a href="../08_memoria/" class="md-footer__link md-footer__link--prev" aria-label="Anterior: 8. Memória">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                8. Memória
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../10_arquivos/" class="md-footer__link md-footer__link--next" aria-label="Próximo: 10. Sistemas de Arquivos">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Próximo
+              </span>
+              <div class="md-ellipsis">
+                10. Sistemas de Arquivos
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.footer", "content.code.copy", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>
